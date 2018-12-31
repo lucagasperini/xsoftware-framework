@@ -48,8 +48,5 @@ class xs_framework
                 
                 echo "<input type='".$settings['type']."' name='". $name . "' value='".$value."' " . $readonly  . "/>";
         }
-
-
-   } 
-}
+} 
 ?>
