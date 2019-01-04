@@ -15,6 +15,14 @@ function load_framework()
 
 }
 
+add_action( 'init', 'xs_framework_init_meta_boxes', 9999 );
+
+function xs_framework_init_meta_boxes() {
+    if( ! class_exists( 'cmb_Meta_Box' ) )
+        require_once(plugin_dir_path( __FILE__ ) . 'meta-boxes.php');
+}
+
+
 class xs_framework
 {
 
