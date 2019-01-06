@@ -90,7 +90,7 @@ class xs_framework
                         echo "</tr>";
                 }
 
-                echo "</table>";
+                echo "</tr></table>";
 
         }
 } 
