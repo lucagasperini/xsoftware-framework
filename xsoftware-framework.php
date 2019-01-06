@@ -74,7 +74,7 @@ class xs_framework
         
         static function create_table($settings)
         {
-                $default_settings = array('options' => array(), 'defaults' => array(), 'class' => '', 'headers' => array(), 'data' => array( array() ) );
+                $default_settings = array('class' => '', 'headers' => array(), 'data' => array( array() ) );
                 $settings += $default_settings;
                 
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
