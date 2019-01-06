@@ -131,5 +131,30 @@ class xs_framework
                 else
                         return $return_string;
         }
+        
+        static function create_select($settings)
+        {
+                $default_settings = array( 'name' => '', 'class' => '', 'data' => array(), 'selected' => '', 'return' => false);
+                $settings += $default_settings;
+                
+                $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                
+                $return_string = "<select ".$class." ". $name . " >";
+                
+                foreach($settings['data'] as $key => $value ) {
+                        if($value == $settings['selected'])
+                                $return_string .= '<option value="'. $key .'" selected>'.$value.'</option>';
+                        else
+                                $return_string .= '<option value="'. $key .'">'.$value.'</option>';
+                }
+                
+                $return_string .= "</select>";
+                
+                if($settings['return'] == false)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
 } 
 ?>
