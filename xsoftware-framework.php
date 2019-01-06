@@ -25,7 +25,11 @@ function xs_framework_init_meta_boxes() {
 
 class xs_framework
 {
-
+        static function init_admin_style()
+        {
+                wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
+        }
+        
         static function create_checkbox_input($settings)
         {
                 $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'compare' => '', 'field_name' => '' );
