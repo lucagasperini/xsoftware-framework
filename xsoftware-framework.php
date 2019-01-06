@@ -53,7 +53,7 @@ class xs_framework
         static function create_text_input($settings)
         {
         
-                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'readonly' => '', 'type' => 'text', 'field_name' => '', 'return' => false);
+                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'readonly' => '', 'type' => 'text', 'field_name' => '', 'return' => false, 'class' => '');
                 $settings += $default_settings;
                 
                 $value = '';
@@ -63,7 +63,9 @@ class xs_framework
                 $name = (empty($settings['field_name'])) ? $settings['name'] : $settings['field_name'];
                 $readonly = (empty($settings['readonly'])) ? '' : 'readonly';
                 
-                $return_string = "<input type='".$settings['type']."' name='". $name . "' value='".$value."' " . $readonly  . "/>";
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                
+                $return_string = "<input ".$class." type='".$settings['type']."' name='". $name . "' value='".$value."' " . $readonly  . "/>";
                 
                 if($settings['return'] == false)
                         echo $return_string;
