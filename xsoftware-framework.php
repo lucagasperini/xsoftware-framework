@@ -113,5 +113,23 @@ class xs_framework
                 else
                         return $return_string;
         }
+        
+        static function create_textarea($settings)
+        {
+                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'return' => false);
+                $settings += $default_settings;
+                
+                $text = $settings['text'];
+                $value = empty($settings['value']) ? "" : "value=\"".$settings['value']."\"";
+                $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                
+                $return_string = "<textarea ".$class." ". $name . " " . $value . ">".$text."</textarea>";
+                
+                if($settings['return'] == false)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
 } 
 ?>
