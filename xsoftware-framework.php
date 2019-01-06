@@ -32,7 +32,7 @@ class xs_framework
         
         static function create_checkbox_input($settings)
         {
-                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'compare' => '', 'field_name' => '' );
+                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'compare' => '', 'field_name' => '', 'return' => false);
                 $settings += $default_settings;
                 
                 $value = '';
@@ -42,13 +42,18 @@ class xs_framework
                 $name = (empty($settings['field_name'])) ? $settings['name'] : $settings['field_name'];
                 $checked = ($value == $settings['compare']) ? 'checked' : '';
                 
-                echo "<input type='checkbox' name='".$name."' ".$checked." />";
+                $return_string = "<input type='checkbox' name='".$name."' ".$checked." />";
+                
+                if($settings['return'] == false)
+                        echo $return_string;
+                else
+                        return $return_string;
         }
 
         static function create_text_input($settings)
         {
         
-                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'readonly' => '', 'type' => 'text', 'field_name' => '' );
+                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'readonly' => '', 'type' => 'text', 'field_name' => '', 'return' => false);
                 $settings += $default_settings;
                 
                 $value = '';
@@ -58,7 +63,35 @@ class xs_framework
                 $name = (empty($settings['field_name'])) ? $settings['name'] : $settings['field_name'];
                 $readonly = (empty($settings['readonly'])) ? '' : 'readonly';
                 
-                echo "<input type='".$settings['type']."' name='". $name . "' value='".$value."' " . $readonly  . "/>";
+                $return_string = "<input type='".$settings['type']."' name='". $name . "' value='".$value."' " . $readonly  . "/>";
+                
+                if($settings['return'] == false)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
+        
+        
+        static function create_table($settings)
+        {
+                $default_settings = array('options' => array(), 'defaults' => array(), 'class' => '', 'headers' => array(), 'data' => array( array() ) );
+                $settings += $default_settings;
+                
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                echo "<table ". $class ." ><tr>";
+                
+                foreach($settings['header'] as $header)
+                        echo "<th>" . $header . "</th>";
+
+                foreach($settings['data'] as $row) {
+                        echo '<tr>';
+                        foreach($row as $element)
+                                echo "<td>".$element."</td>";
+                        echo "</tr>";
+                }
+
+                echo "</table>";
+
         }
 } 
 ?>
