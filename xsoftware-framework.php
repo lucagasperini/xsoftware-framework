@@ -82,7 +82,7 @@ class xs_framework
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
                 echo "<table ". $class ." ><tr>";
                 
-                foreach($settings['header'] as $header)
+                foreach($settings['headers'] as $header)
                         echo "<th>" . $header . "</th>";
 
                 foreach($settings['data'] as $row) {
