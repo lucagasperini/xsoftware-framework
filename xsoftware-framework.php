@@ -30,19 +30,17 @@ class xs_framework
                 wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
         }
         
-        static function create_checkbox_input($settings)
+        static function create_input_checkbox($settings)
         {
-                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'compare' => '', 'field_name' => '', 'return' => false);
+                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'compare' => '', 'return' => false);
                 $settings += $default_settings;
                 
-                $value = '';
-                if(isset($settings['defaults'][$settings['name']]))
-                        $value = (isset($settings['options'][$settings['name']])) ? $settings['options'][$settings['name']] : $settings['defaults'][$settings['name']];
-                        
-                $name = (empty($settings['field_name'])) ? $settings['name'] : $settings['field_name'];
-                $checked = ($value == $settings['compare']) ? 'checked' : '';
+                $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
+                $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
+                $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
+                $checked =      $name != $settings['compare']   ? "" : "checked";
                 
-                $return_string = "<input type='checkbox' name='".$name."' ".$checked." />";
+                $return_string = "<input type='checkbox' ".$class." " . $name . " ".$checked." />";
                 
                 if($settings['return'] == false)
                         echo $return_string;
@@ -50,22 +48,19 @@ class xs_framework
                         return $return_string;
         }
 
-        static function create_text_input($settings)
+        static function create_input($settings)
         {
         
-                $default_settings = array('options' => array(), 'defaults' => array(), 'name' => '', 'readonly' => '', 'type' => 'text', 'field_name' => '', 'return' => false, 'class' => '');
+                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'readonly' => '', 'type' => 'text', 'return' => false, );
                 $settings += $default_settings;
                 
-                $value = '';
-                if(isset($settings['defaults'][$settings['name']]))
-                        $value = (isset($settings['options'][$settings['name']])) ? $settings['options'][$settings['name']] : $settings['defaults'][$settings['name']];
-                        
-                $name = (empty($settings['field_name'])) ? $settings['name'] : $settings['field_name'];
-                $readonly = (empty($settings['readonly'])) ? '' : 'readonly';
+                $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
+                $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
+                $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
+                $type =         empty($settings['type'])        ? "" : "type=\"".$settings['type']."\"";
+                $readonly =     empty($settings['readonly'])    ? "" : "readonly";
                 
-                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
-                
-                $return_string = "<input ".$class." type='".$settings['type']."' name='". $name . "' value='".$value."' " . $readonly  . "/>";
+                $return_string = "<input " . $class . " " . $type . " ". $name . " " . $value . " " . $readonly  . "/>";
                 
                 if($settings['return'] == false)
                         echo $return_string;
