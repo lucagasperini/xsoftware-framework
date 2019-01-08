@@ -18,3 +18,7 @@ tr:nth-child(even) {
 .xs_full_width {
         width: 100%;
 }
+
+.xs_text_center {
+        text-align: center;
+}

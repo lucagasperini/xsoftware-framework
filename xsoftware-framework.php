@@ -93,15 +93,16 @@ class xs_framework
         
         static function create_button($settings)
         {
-                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'return' => false);
+                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'onclick' => '', 'return' => false);
                 $settings += $default_settings;
                 
                 $text = $settings['text'];
-                $value = empty($settings['value']) ? "" : "value=\"".$settings['value']."\"";
-                $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
-                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
+                $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
+                $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
+                $onclick =      empty($settings['onclick'])     ? "" : "onclick=\"".$settings['onclick']."\"";
                 
-                $return_string = "<button ".$class." ". $name . " " . $value . ">".$text."</button>";
+                $return_string = "<button ".$class." ". $name . " " . $value . " " . $onclick . ">".$text."</button>";
                 
                 if($settings['return'] == false)
                         echo $return_string;
