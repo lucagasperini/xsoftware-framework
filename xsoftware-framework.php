@@ -160,5 +160,26 @@ class xs_framework
                 else
                         return $return_string;
         }
+        
+        static function create_link($settings)
+        {
+                $default_settings = array( 'href' => '', 'class' => '', 'text' => '', 'title' => '', 'type' => '', 'hreflang' => '', 'download' => false, 'return' => false);
+                $settings += $default_settings;
+                
+                $href =         empty($settings['href'])         ? "" : "href=\"" . $settings['href'] . "\"";
+                $class =        empty($settings['class'])        ? "" : "class=\"".$settings['class']."\"";
+                $title =        empty($settings['title'])        ? "" : "title=\"".$settings['title']."\"";
+                $type =         empty($settings['type'])         ? "" : "type=\"" . $settings['type'] . "\"";
+                $hreflang =     empty($settings['hreflang'])     ? "" : "hreflang=\"".$settings['hreflang']."\"";
+                $download =     empty($settings['download'])     ? "" : "download";
+                $text =         $settings['text'];
+                
+                $return_string = "<a ". $href ." ". $class . " ". $title . " " . $type . " " . $hreflang . " " . $download . ">" . $text . "</a>";
+                
+                if($settings['return'] == false)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
 } 
 ?>
