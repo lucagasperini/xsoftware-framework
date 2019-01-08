@@ -14,3 +14,7 @@ th {
 tr:nth-child(even) {
         background-color: #dddddd;
 }
+
+.xs_full_width {
+        width: 100%;
+}
