@@ -130,7 +130,15 @@ class xs_framework
         
         static function create_select($settings)
         {
-                $default_settings = array( 'name' => '', 'class' => '', 'data' => array(), 'selected' => '', 'reverse' => false, 'return' => false);
+                $default_settings = array( 'name' => '', 
+                                        'class' => '', 
+                                        'data' => array(), 
+                                        'selected' => '', 
+                                        'compare_key' => false, 
+                                        'reverse' => false,
+                                        'return' => false
+                                        );
+                                        
                 $settings += $default_settings;
                 
                 $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
@@ -140,16 +148,22 @@ class xs_framework
                 
                 if($settings['reverse'] == false) {
                         foreach($settings['data'] as $key => $value ) {
-                                if($value == $settings['selected'])
+                                if(
+                                        ($value == $settings['selected'] && $settings['compare_key'] !== true) ||
+                                        ($key == $settings['selected'] && $settings['compare_key'] === true)
+                                )
                                         $return_string .= '<option value="'. $key .'" selected>'.$value.'</option>';
                                 else
                                         $return_string .= '<option value="'. $key .'">'.$value.'</option>';
                         }
                 } else { 
                         foreach($settings['data'] as $key => $value ) {
-                                if($value == $settings['selected']) {
+                                if(
+                                        ($value == $settings['selected'] && $settings['compare_key'] !== true) ||
+                                        ($key == $settings['selected'] && $settings['compare_key'] === true)
+                                )
                                         $return_string .= '<option value="'. $value .'" selected>'.$key.'</option>';
-                                }else
+                                else
                                         $return_string .= '<option value="'. $value .'">'.$key.'</option>';
                         }
                 }
