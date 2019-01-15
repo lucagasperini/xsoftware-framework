@@ -30,9 +30,9 @@ class xs_framework
                 wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
         }
         
-        static function user_role($user_id, $role)
+        static function current_user_role($role)
         {
-                var_dump($user_id);
+                $user_id = get_current_user_id();
                 if($user_id < 1)
                         return FALSE;
                 
@@ -45,7 +45,6 @@ class xs_framework
                                 $find_user_role = $key;
                         }
                 }
-                var_dump($find_user_role, $find_need_role);
                 return $find_user_role >= $find_need_role;
         }
         
