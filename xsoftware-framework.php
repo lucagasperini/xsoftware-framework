@@ -30,6 +30,25 @@ class xs_framework
                 wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
         }
         
+        static function user_role($user_id, $role)
+        {
+                var_dump($user_id);
+                if($user_id < 1)
+                        return FALSE;
+                
+                $standard_roles = array(0 => 'subscriber', 1 => 'contributor', 2 => 'author', 3 => 'editor', 4 => 'administrator');
+                $user_roles = get_userdata($user_id)->roles; //FIXME: Can user have more roles?
+                foreach($standard_roles as $key => $value) {
+                        if($role == $value)
+                                $find_need_role = $key;
+                        if($user_roles[0] == $value) {
+                                $find_user_role = $key;
+                        }
+                }
+                var_dump($find_user_role, $find_need_role);
+                return $find_user_role >= $find_need_role;
+        }
+        
         static function create_input_checkbox($settings)
         {
                 $default_settings = array('class' => '', 'value' => '', 'name' => '', 'compare' => '', 'return' => false);
