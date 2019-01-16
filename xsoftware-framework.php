@@ -30,6 +30,11 @@ class xs_framework
                 wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
         }
         
+        static function init_admin_script()
+        {
+                wp_enqueue_script('xs_framework_admin_script', plugins_url('js/functions.js', __FILE__));
+        }
+        
         static function user_role($role, $user_id = NULL)
         {      
                 if($user_id == NULL)
