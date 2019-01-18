@@ -64,7 +64,7 @@ class xs_framework
                 $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
                 $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
                 $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
-                $checked =      $name != $settings['compare']   ? "" : "checked";
+                $checked =      $settings['value'] != $settings['compare']   ? "" : "checked";
                 
                 $return_string = "<input type='checkbox' ".$class." " . $name . " ".$checked." />";
                 
