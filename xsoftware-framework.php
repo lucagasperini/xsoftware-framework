@@ -8,11 +8,11 @@ Author URI: https://xsoftware.eu/
 Text Domain: xsoftware_products
 */
 
-add_action( 'plugins_loaded', 'load_framework', 0 );
+add_action( 'plugins_loaded', 'load_framework', 0 ); //Load it first!
 
 function load_framework()
 {
-
+        include 'framework-options.php';
 }
 
 add_action( 'init', 'xs_framework_init_meta_boxes', 9999 );
