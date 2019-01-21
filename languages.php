@@ -182,16 +182,5 @@ class xs_language
         'Zhuang'            => 'za',
         'Zulu'              => 'zu',
         );
-
-
-        static public function languages_options($current_lang = NULL)
-        {
-                foreach(self::$language_codes as $key => $value ) {
-                        if($value == $current_lang)
-                                echo '<option value="'. $value .'" selected>'.$key.'</option>';
-                        else
-                                echo '<option value="'. $value .'">'.$key.'</option>';
-                }
-        }
 }
 ?>
