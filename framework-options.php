@@ -12,7 +12,7 @@ class xs_framework_options
         {
                 add_action('admin_menu', array($this, 'admin_menu'), 0); //Load it first!
                 add_action('admin_init', array($this, 'section_menu'), 0); //Load it first!
-                $this->settings = xs_framework::get_option('xs_framework_options');
+                $this->settings = xs_framework::get_option();
         }
         
         function admin_menu()
