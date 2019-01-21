@@ -60,6 +60,9 @@ class xs_framework_options
                         $key = array_keys(xs_language::$language_codes, $input['add_lang']);
                         $current['available_languages'][$input['add_lang']] = $key[0];
                 }
+                if(isset($input['remove_lang'])) {
+                        unset($current['available_languages'][$input['remove_lang']]);
+                }
                 return $current;
         }
         
@@ -70,6 +73,13 @@ class xs_framework_options
                 $langs = array();
                 $i = 0;
                 foreach($settings['available_languages'] as $key => $value) {
+                        $langs[$i][] = xs_framework::create_button( array( 
+                                'name' => 'xs_framework_options[remove_lang]', 
+                                'class' => 'button-primary', 
+                                'value' => $key, 
+                                'text' => 'Remove', 
+                                'return' => true
+                        ));
                         $langs[$i][] = $value;
                         $langs[$i][] = $key;
                         $i++;
@@ -77,7 +87,7 @@ class xs_framework_options
                
                 xs_framework::create_table( array( 
                         'data' => $langs,
-                        'headers' => array('Language', 'Code')
+                        'headers' => array('Actions', 'Language', 'Code')
                 ));
                 
                 $settings_field = array( 
