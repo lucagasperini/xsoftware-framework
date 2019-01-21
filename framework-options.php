@@ -6,16 +6,13 @@ include 'languages.php';
 
 class xs_framework_options
 {
-        public $default = array(
-                'available_languages' => array('en' => 'English')
-                );
         public $settings = array();
         
         function __construct()
         {
                 add_action('admin_menu', array($this, 'admin_menu'), 0); //Load it first!
                 add_action('admin_init', array($this, 'section_menu'), 0); //Load it first!
-                $this->settings = get_option('xs_framework_options', $this->default);
+                $this->settings = xs_framework::get_option('xs_framework_options');
         }
         
         function admin_menu()

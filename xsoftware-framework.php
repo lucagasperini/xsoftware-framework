@@ -25,6 +25,15 @@ function xs_framework_init_meta_boxes() {
 
 class xs_framework
 {
+
+        static function get_option() 
+        {
+                $default = array(
+                        'available_languages' => array('en' => 'English')
+                );
+                
+                return get_option('xs_framework_options', $default);
+        }
         static function init_admin_style()
         {
                 wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
