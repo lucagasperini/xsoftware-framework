@@ -180,7 +180,6 @@ class xs_framework
                                         );
                                         
                 $settings += $default_settings;
-                var_dump($settings);
                 $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
                 
