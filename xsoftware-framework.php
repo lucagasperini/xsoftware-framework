@@ -174,13 +174,13 @@ class xs_framework
                                         'class' => '', 
                                         'data' => array(), 
                                         'selected' => '', 
-                                        'compare_key' => false, 
+                                        'compare_key' => true, 
                                         'reverse' => false,
                                         'return' => false
                                         );
                                         
                 $settings += $default_settings;
-                
+                var_dump($settings);
                 $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
                 
@@ -189,8 +189,8 @@ class xs_framework
                 if($settings['reverse'] == false) {
                         foreach($settings['data'] as $key => $value ) {
                                 if(
-                                        ($value == $settings['selected'] && $settings['compare_key'] !== true) ||
-                                        ($key == $settings['selected'] && $settings['compare_key'] === true)
+                                        ($settings['compare_key'] !== true && $value == $settings['selected'] ) ||
+                                        ($settings['compare_key'] === true && $key == $settings['selected'] )
                                 )
                                         $return_string .= '<option value="'. $key .'" selected>'.$value.'</option>';
                                 else
