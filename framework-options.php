@@ -4,7 +4,9 @@ if (!class_exists('xs_framework_options')) :
 
 class xs_framework_options
 {
-        public $default = array();
+        public $default = array(
+                'available_languages' => array('en' => 'English')
+                );
         public $settings = array();
         
         function __construct()
@@ -24,6 +26,8 @@ class xs_framework_options
                 if ( !current_user_can( 'manage_options' ) )  {
                         wp_die( __( 'Exit!' ) );
                 }
+                
+                xs_framework::init_admin_style();
                 
                 echo '<div class="wrap">';
 
@@ -49,11 +53,43 @@ class xs_framework_options
 
         function input($input)
         {
-        
+                $current = $this->settings;
+                if(isset($input['add_lang'])) {
+                        $key = array_keys(xs_language::$language_codes, $input['add_lang']);
+                        $current['available_languages'][$input['add_lang']] = $key[0];
+                }
+                return $current;
         }
         
         function show()
         {
+                $settings = $this->settings;
+                
+                $langs = array();
+                $i = 0;
+                foreach($settings['available_languages'] as $key => $value) {
+                        $langs[$i][] = $value;
+                        $langs[$i][] = $key;
+                        $i++;
+                }
+               
+                xs_framework::create_table( array( 
+                        'data' => $langs,
+                        'headers' => array('Language', 'Code')
+                ));
+                
+                $settings_field = array( 
+                        'name' => 'xs_framework_options[add_lang]', 
+                        'data' => xs_language::$language_codes,
+                        'reverse' => true
+                );
+                
+                add_settings_field($settings_field['name'], 
+                'Add new language:',
+                'xs_framework::create_select',
+                'framework',
+                'section_framework',
+                $settings_field);
         }
 
 }
