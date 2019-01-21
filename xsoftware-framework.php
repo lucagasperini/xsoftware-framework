@@ -26,13 +26,18 @@ function xs_framework_init_meta_boxes() {
 class xs_framework
 {
 
-        static function get_option() 
+        static function get_option($selected = NULL) 
         {
                 $default = array(
                         'available_languages' => array('en' => 'English')
                 );
                 
-                return get_option('xs_framework_options', $default);
+                $option = get_option('xs_framework_options', $default);
+                
+                if($selected != NULL)
+                        return isset($option[$selected]) ? $option[$selected] : FALSE;
+                else
+                        return $option;
         }
         static function init_admin_style()
         {
