@@ -2,6 +2,8 @@
 
 if (!class_exists('xs_framework_options')) :
 
+include 'languages.php';
+
 class xs_framework_options
 {
         public $default = array(
