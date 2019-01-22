@@ -16,7 +16,7 @@ trait languages
                 }
         }
         
-        static function get_name_list() 
+        static function get_lang_name_list() 
         {
                 self::check_translation();
                 
@@ -27,7 +27,7 @@ trait languages
                 return $list;
         }
         
-        static function get_download_list() 
+        static function get_lang_download_list() 
         {
                 self::check_translation();
                 
@@ -38,7 +38,7 @@ trait languages
                 return $list;
         }
         
-        static function get_download($lang)
+        static function get_lang_download($lang)
         {
                 self::check_translation();
                
@@ -128,7 +128,6 @@ trait languages
         return $maxLang;
         }
 
-        
         static function cookie_language($language)
         {
                 if($language == NULL || $language == false)  
@@ -140,6 +139,11 @@ trait languages
                 } else {
                         return $_COOKIE['xs_framework_user_language'];
                 }
+        }
+        
+        static function get_user_language()
+        {
+                return isset($_COOKIE['xs_framework_user_language']) ? $_COOKIE['xs_framework_user_language'] : self::get_option('frontend_language');
         }
         
 }

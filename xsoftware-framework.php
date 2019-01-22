@@ -88,6 +88,5 @@ class xs_framework
                 }
                 return $find_user_role >= $find_need_role;
         }
-       
 } 
 ?>
