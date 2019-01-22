@@ -29,10 +29,13 @@ class xs_framework
         static function get_option($selected = NULL) 
         {
                 $default = array(
-                        'available_languages' => array('en' => 'English')
+                        'available_languages' => array('en_GB' => 'English (UK)'),
+                        'frontend_language' => 'en_GB',
+                        'backend_language' => 'en_GB'
                 );
                 
-                $option = get_option('xs_framework_options', $default);
+                $option = get_option('xs_framework_options', array());
+                $option += $default;
                 
                 if($selected != NULL)
                         return isset($option[$selected]) ? $option[$selected] : FALSE;

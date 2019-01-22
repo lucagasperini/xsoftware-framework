@@ -1,186 +1,46 @@
 <?php
 
+require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
 class xs_language
 {
-
-        static $language_codes = array(
-        'Abkhazian'         => 'ab',
-        'Afar'              => 'aa',
-        'Afrikaans'         => 'af',
-        'Akan'              => 'ak',
-        'Albanian'          => 'sq',
-        'Amharic'           => 'am',
-        'Arabic'            => 'ar',
-        'Armenian'          => 'hy',
-        'Assamese'          => 'as',
-        'Avar'              => 'av',
-        'Avestan'           => 'ae',
-        'Aymara'            => 'ay',
-        'Azerbaijani'       => 'az',
-        'Bambara'           => 'bm',
-        'Bashkir'           => 'ba',
-        'Basque'            => 'eu',
-        'Belarusian'        => 'be',
-        'Bengali'           => 'bn',
-        'Bhutani'           => 'dz',
-        'Bihari'            => 'bh',
-        'Bislama'           => 'bi',
-        'Bosnian'           => 'bs',
-        'Breton'            => 'br',
-        'Bulgarian'         => 'bg',
-        'Burmese'           => 'my',
-        'Cambodian'         => 'km',
-        'Catalan'           => 'ca',
-        'Chamorro'          => 'ch',
-        'Chechen'           => 'ce',
-        'Chichewa'          => 'ny',
-        'Chinese'           => 'zh',
-        'Chuvash'           => 'cv',
-        'Cornish'           => 'kw',
-        'Corsican'          => 'co',
-        'Cree'              => 'cr',
-        'Croatian'          => 'hr',
-        'Czech'             => 'cs',
-        'Danish'            => 'da',
-        'Dutch'             => 'nl',
-        'English'           => 'en',
-        'Esperanto'         => 'eo',
-        'Estonian'          => 'et',
-        'Ewe'               => 'ee',
-        'Faeroese'          => 'fo',
-        'Fiji'              => 'fj',
-        'Finnish'           => 'fi',
-        'French'            => 'fr',
-        'Frisian'           => 'fy',
-        'Fulah'             => 'ff',
-        'Galician'          => 'gl',
-        'Georgian'          => 'ka',
-        'German'            => 'de',
-        'Greek'             => 'el',
-        'Greenlandic'       => 'kl',
-        'Guarani'           => 'gn',
-        'Gujarati'          => 'gu',
-        'Hausa'             => 'ha',
-        'Hebrew'            => 'he',
-        'Herero'            => 'hz',
-        'Hindi'             => 'hi',
-        'Hiri Motu'         => 'ho',
-        'Hungarian'         => 'hu',
-        'Icelandic'         => 'is',
-        'Igbo'              => 'ig',
-        'Indonesian'        => 'id',
-        'Interlingua'       => 'ia',
-        'Interlingue'       => 'ie',
-        'Inuktitut'         => 'iu',
-        'Inupiak'           => 'ik',
-        'Irish'             => 'ga',
-        'Italian'           => 'it',
-        'Japanese'          => 'ja',
-        'Javanese'          => 'jv',
-        'Kannada'           => 'kn',
-        'Kanuri'            => 'kr',
-        'Kashmiri'          => 'ks',
-        'Kazakh'            => 'kk',
-        'Kikuyu'            => 'ki',
-        'Kinyarwanda'       => 'rw',
-        'Kirghiz'           => 'ky',
-        'Kirundi'           => 'rn',
-        'Komi'              => 'kv',
-        'Kongo'             => 'kg',
-        'Korean'            => 'ko',
-        'Kurdish'           => 'ku',
-        'Kwanyama'          => 'kj',
-        'Laothian'          => 'lo',
-        'Latin'             => 'la',
-        'Latvian'           => 'lv',
-        'Lingala'           => 'ln',
-        'Lithuanian'        => 'lt',
-        'Luganda'           => 'lg',
-        'Luxembourgish'     => 'lb',
-        'Macedonian'        => 'mk',
-        'Malagasy'          => 'mg',
-        'Malay'             => 'ms',
-        'Malayalam'         => 'ml',
-        'Maldivian'         => 'dv',
-        'Maltese'           => 'mt',
-        'Manx'              => 'gv',
-        'Maori'             => 'mi',
-        'Marathi'           => 'mr',
-        'Marshallese'       => 'mh',
-        'Moldavian'         => 'mo',
-        'Mongolian'         => 'mn',
-        'Nauru'             => 'na',
-        'Navajo'            => 'nv',
-        'Ndonga'            => 'ng',
-        'Nepali'            => 'ne',
-        'North Ndebele'     => 'nd',
-        'Northern Sami'     => 'se',
-        'Norwegian Bokmål'  => 'nb',
-        'Norwegian Nynorsk' => 'nn',
-        'Occitan'           => 'oc',
-        'Old Slavonic'      => 'cu',
-        'Oriya'             => 'or',
-        'Oromo'             => 'om',
-        'Ossetian'          => 'os',
-        'Pali'              => 'pi',
-        'Pashto'            => 'ps',
-        'Persian'           => 'fa',
-        'Polish'            => 'pl',
-        'Portuguese'        => 'pt',
-        'Punjabi'           => 'pa',
-        'Quechua'           => 'qu',
-        'Rhaeto-Romance'    => 'rm',
-        'Romanian'          => 'ro',
-        'Russian'           => 'ru',
-        'Samoan'            => 'sm',
-        'Sango'             => 'sg',
-        'Sanskrit'          => 'sa',
-        'Sardinian'         => 'sc',
-        'Scots Gaelic'      => 'gd',
-        'Serbian'           => 'sr',
-        'Serbo-Croatian'    => 'sh',
-        'Sesotho'           => 'st',
-        'Setswana'          => 'tn',
-        'Shona'             => 'sn',
-        'Sindhi'            => 'sd',
-        'Singhalese'        => 'si',
-        'Siswati'           => 'ss',
-        'Slavic'            => 'sla',
-        'Slovak'            => 'sk',
-        'Slovenian'         => 'sl',
-        'Somali'            => 'so',
-        'South Ndebele'     => 'nr',
-        'Spanish'           => 'es',
-        'Sudanese'          => 'su',
-        'Swahili'           => 'sw',
-        'Swedish'           => 'sv',
-        'Tagalog'           => 'tl',
-        'Tahitian'          => 'ty',
-        'Tajik'             => 'tg',
-        'Tamil'             => 'ta',
-        'Tatar'             => 'tt',
-        'Telugu'            => 'te',
-        'Thai'              => 'th',
-        'Tibetan'           => 'bo',
-        'Tigrinya'          => 'ti',
-        'Tonga'             => 'to',
-        'Tsonga'            => 'ts',
-        'Turkish'           => 'tr',
-        'Turkmen'           => 'tk',
-        'Twi'               => 'tw',
-        'Uighur'            => 'ug',
-        'Ukrainian'         => 'uk',
-        'Urdu'              => 'ur',
-        'Uzbek'             => 'uz',
-        'Venda'             => 've',
-        'Vietnamese'        => 'vi',
-        'Welsh'             => 'cy',
-        'Wolof'             => 'wo',
-        'Xhosa'             => 'xh',
-        'Yiddish'           => 'yi',
-        'Yoruba'            => 'yo',
-        'Zhuang'            => 'za',
-        'Zulu'              => 'zu',
-        );
+        static private $translations = NULL;
+        
+        static private function check_translation()
+        {
+                if(isset(self::$translations) && !empty(self::$translations)) {
+                        return self::$translations;
+                } else {
+                        self::$translations = wp_get_available_translations();
+                        return self::$translations;
+                }
+        }
+        static function get_name_list() 
+        {
+                self::check_translation();
+                
+                $list = array();
+                foreach(self::$translations as $code => $prop) {
+                      $list[$code] = $prop['english_name'];
+                }
+                return $list;
+        }
+        static function get_download_list() 
+        {
+                self::check_translation();
+                
+                $list = array();
+                foreach(self::$translations as $code => $prop) {
+                      $list[$code] = $prop['package'];
+                }
+                return $list;
+        }
+        
+        static function get_download($lang)
+        {
+                self::check_translation();
+               
+                return self::$translations[$lang]['package'];
+        }
 }
 ?>

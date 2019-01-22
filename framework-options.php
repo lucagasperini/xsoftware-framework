@@ -54,11 +54,15 @@ class xs_framework_options
         {
                 $current = $this->settings;
                 if(isset($input['add_lang'])) {
-                        $key = array_keys(xs_language::$language_codes, $input['add_lang']);
-                        $current['available_languages'][$input['add_lang']] = $key[0];
+                        $lang_list = xs_language::get_name_list();
+                        $current['available_languages'][$input['add_lang']] = $lang_list[$input['add_lang']];
+                        $res = $this->download_language($input['add_lang']);
+                        if($res == FALSE)
+                                return; //FIXME: Create an error handler!
                 }
                 if(isset($input['remove_lang'])) {
                         unset($current['available_languages'][$input['remove_lang']]);
+                        $this->remove_language($input['remove_lang']);
                 }
                 return $current;
         }
@@ -89,17 +93,82 @@ class xs_framework_options
                 
                 $settings_field = array( 
                         'name' => 'xs_framework_options[add_lang]', 
-                        'data' => xs_language::$language_codes,
-                        'reverse' => true
+                        'data' => xs_language::get_name_list()
                 );
                 
-                add_settings_field($settings_field['name'], 
-                'Add new language:',
-                'xs_framework::create_select',
-                'framework',
-                'section_framework',
-                $settings_field);
+                add_settings_field(
+                        $settings_field['name'], 
+                        'Add new language:',
+                        'xs_framework::create_select',
+                        'framework',
+                        'section_framework',
+                        $settings_field
+                );
+                
+                $options = array(
+                        'name' => 'xs_framework_options[frontend_language]',
+                        'data' => $settings['available_languages'],
+                        'selected' => $settings['frontend_language']
+                );
+        
+                add_settings_field(
+                        $options['name'],
+                        'Default language',
+                        'xs_framework::create_select',
+                        'framework',
+                        'section_framework',
+                        $options
+                );
+
+                $options = array(
+                        'name' => 'xs_framework_options[backend_language]',
+                        'data' => $settings['available_languages'],
+                        'selected' => $settings['backend_language']
+                );
+                add_settings_field(
+                        $options['name'],
+                        'Default language for admin side',
+                        'xs_framework::create_select',
+                        'framework',
+                        'section_framework',
+                        $options
+                );
+                
+
         }
+        
+        function download_language($lang_code) 
+        {
+                $remoteFile = xs_language::get_download($lang_code);
+
+                $lang_dir = WP_CONTENT_DIR . '/languages/';
+                $package = $lang_dir."package.zip";
+
+                $flag = file_put_contents($package, fopen($remoteFile, 'r'));
+
+                if($flag === FALSE || !class_exists('ZipArchive'))
+                        return FALSE;
+                        
+                $zip = new ZipArchive;
+                
+                if ($zip->open($package) !== TRUE)
+                        return FALSE;
+
+                $zip->extractTo($lang_dir, array($lang_code.".mo", $lang_code.".po"));
+                $zip->close();
+                unlink($package);
+
+                return TRUE;
+        }
+        
+        function remove_language($lang_code)
+        {
+                $lang_dir = WP_CONTENT_DIR . '/languages/';
+                unlink($lang_dir.$lang_code.'.mo');
+                unlink($lang_dir.$lang_code.'.po');
+                return TRUE;
+        }
+
 
 }
 
