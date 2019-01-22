@@ -88,44 +88,6 @@ class xs_framework
                 }
                 return $find_user_role >= $find_need_role;
         }
-        
-        static function post_upload_file($settings)
-        {
-                $default_settings = array( 
-                'file' => array(), 
-                'dir' => '',
-                'max_size' => 500000, 
-                'types' => array()
-                );
-                $settings += $default_settings;
-               
-                $target_file = $settings["dir"] . basename($settings["file"]["name"]);
-                $ok = 1;
-                $type = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-               
-                if (file_exists($target_file)) {
-                        echo "Sorry, file already exists.";
-                        $ok = 0;
-                }
-                
-                if ($settings["file"]["size"] > $settings['max_size']) {
-                        echo "Sorry, your file is too large.";
-                        $ok = 0;
-                }
-                
-                if(in_array($type,$settings["types"])) {
-                        $ok = 0;
-                }
-                if ($ok == 0) {
-                        echo "Sorry, your file was not uploaded.";
-                } else {
-                        if (move_uploaded_file($settings["file"]["tmp_name"], $target_file)) {
-                                echo "The file ". basename($settings["file"]["name"]). " has been uploaded.";
-                        } else {
-                                echo "Sorry, there was an error uploading your file.";
-                        }
-                }
-        }
        
 } 
 ?>
