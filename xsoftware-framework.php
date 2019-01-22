@@ -13,6 +13,14 @@ add_action( 'plugins_loaded', 'load_framework', 0 ); //Load it first!
 function load_framework()
 {
         include 'framework-options.php';
+        
+        $options = xs_framework::get_option();
+        //take language from browser setting
+        $language = xs_framework::language_browser();
+        
+        if(isset($options['available_languages'][$language])) {
+                $language = xs_framework::cookie_language($language);
+        }
 }
 
 add_action( 'init', 'xs_framework_init_meta_boxes', 9999 );
@@ -25,9 +33,14 @@ function xs_framework_init_meta_boxes() {
 
 add_filter('locale', 'xs_framework::set_locale');
 
+include 'html.php';
+include 'languages.php';
+
 class xs_framework
 {
-
+        use html;
+        use languages;
+        
         static function get_option($selected = NULL) 
         {
                 $default = array(
@@ -52,6 +65,94 @@ class xs_framework
                         return $options['backend_language'];
                 else
                         return $options['frontend_language'];
+        }
+        /**
+        * This function retrieves the user language from the browser. It reads the headers sent by the browser about language preferences.
+        *
+        * @return mixed it returns a string containing a language code or false if there isn't any language detected.
+        */
+        static function language_browser(){
+        if(!isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
+                return false;
+        }
+        //split the header languages
+        $browserLanguages = explode(',', $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+        
+        
+
+        //parse each language
+        $parsedLanguages = array();
+        foreach($browserLanguages as $bLang){
+        //check for q-value and create associative array. No q-value means 1 by rule
+        if(preg_match("/(.*);q=([0-1]{0,1}\.\d{0,4})/i",$bLang,$matches)){
+                $matches[1] = strtolower(str_replace('-', '_', $matches[1]));
+                $parsedLanguages []= array(
+                'code' => (false !== strpos($matches[1] , '_')) ? $matches[1] : false,
+                'l' => $matches[1],
+                'q' => (float)$matches[2],
+                );
+        }
+        else{
+                $bLang = strtolower(str_replace('-', '_', $bLang));
+                $parsedLanguages []= array(
+                'code' => (false !== strpos($bLang , '_')) ? $bLang : false,
+                'l' => $bLang,
+                'q' => 1.0,
+                );
+        }
+        }
+        //get the languages activated in the site
+        $validLanguages = uls_get_available_languages();
+        
+        //validate the languages
+        $max = 0.0;
+        $maxLang = false;
+        foreach($parsedLanguages as $k => &$v){
+        if(false !== $v['code']){
+                //search the language in the installed languages using the language and location
+                foreach($validLanguages as $vLang){
+                if(strtolower($vLang) == $v['code']){
+                //replace the preferred language
+                if($v['q'] > $max){
+                $max = $v['q'];
+                $maxLang = $vLang;
+                }
+                }
+                }//check for the complete code
+        }
+        }
+
+        //if language hasn't been detected
+        if(false == $maxLang){
+        foreach($parsedLanguages as $k => &$v){
+                //search only for the language
+                foreach($validLanguages as $vLang){
+                if(substr($vLang, 0, 2) == substr($v['l'], 0, 2)){
+                //replace the preferred language
+                if($v['q'] > $max){
+                $max = $v['q'];
+                $maxLang = $vLang;
+                }
+                }
+                }//search only for the language
+        }
+        }
+
+        return $maxLang;
+        }
+
+        
+        static function cookie_language($language)
+        {
+                if($language == NULL || $language == false)  
+                        return NULL;
+                        
+                if(!isset($_COOKIE['xs_framework_user_language'])){
+                        setcookie('xs_framework_user_language', $language, time()+2*60*60, "/"); //set a cookie for 2 hour
+                        return $language;
+                } else {
+                        return $_COOKIE['xs_framework_user_language'];
+                }
         }
         
         static function init_admin_style()
@@ -85,191 +186,6 @@ class xs_framework
                 return $find_user_role >= $find_need_role;
         }
         
-        static function create_input_checkbox($settings)
-        {
-                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'compare' => '', 'return' => false);
-                $settings += $default_settings;
-                
-                $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
-                $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
-                $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
-                $checked =      $settings['value'] != $settings['compare']   ? "" : "checked";
-                
-                $return_string = "<input type='checkbox' ".$class." " . $name . " ".$checked." />";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-
-        static function create_input($settings)
-        {
-        
-                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'readonly' => '', 'type' => 'text', 'return' => false);
-                $settings += $default_settings;
-                
-                $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
-                $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
-                $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
-                $type =         empty($settings['type'])        ? "" : "type=\"".$settings['type']."\"";
-                $readonly =     empty($settings['readonly'])    ? "" : "readonly";
-                
-                $return_string = "<input " . $class . " " . $type . " ". $name . " " . $value . " " . $readonly  . "/>";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-        
-        
-        static function create_table($settings)
-        {
-                $default_settings = array('class' => '', 'headers' => array(), 'data' => array( array() ) );
-                $settings += $default_settings;
-                
-                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
-                echo "<table ". $class ." ><tr>";
-                
-                foreach($settings['headers'] as $header)
-                        echo "<th>" . $header . "</th>";
-
-                foreach($settings['data'] as $row) {
-                        echo '<tr>';
-                        foreach($row as $element)
-                                echo "<td>".$element."</td>";
-                        echo "</tr>";
-                }
-
-                echo "</tr></table>";
-
-        }
-        
-        static function create_button($settings)
-        {
-                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'onclick' => '', 'return' => false);
-                $settings += $default_settings;
-                
-                $text = $settings['text'];
-                $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
-                $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
-                $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
-                $onclick =      empty($settings['onclick'])     ? "" : "onclick=\"".$settings['onclick']."\"";
-                
-                $return_string = "<button ".$class." ". $name . " " . $value . " " . $onclick . ">".$text."</button>";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-        
-        static function create_textarea($settings)
-        {
-                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'return' => false);
-                $settings += $default_settings;
-                
-                $text = $settings['text'];
-                $value = empty($settings['value']) ? "" : "value=\"".$settings['value']."\"";
-                $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
-                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
-                
-                $return_string = "<textarea ".$class." ". $name . " " . $value . ">".$text."</textarea>";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-        
-        static function create_select($settings)
-        {
-                $default_settings = array( 'name' => '', 
-                                        'class' => '', 
-                                        'data' => array(), 
-                                        'selected' => '', 
-                                        'compare_key' => true, 
-                                        'reverse' => false,
-                                        'return' => false
-                                        );
-                                        
-                $settings += $default_settings;
-                $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
-                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
-                
-                $return_string = "<select ".$class." ". $name . " >";
-                
-                if($settings['reverse'] == false) {
-                        foreach($settings['data'] as $key => $value ) {
-                                if(
-                                        ($settings['compare_key'] !== true && $value == $settings['selected'] ) ||
-                                        ($settings['compare_key'] === true && $key == $settings['selected'] )
-                                )
-                                        $return_string .= '<option value="'. $key .'" selected>'.$value.'</option>';
-                                else
-                                        $return_string .= '<option value="'. $key .'">'.$value.'</option>';
-                        }
-                } else { 
-                        foreach($settings['data'] as $key => $value ) {
-                                if(
-                                        ($value == $settings['selected'] && $settings['compare_key'] !== true) ||
-                                        ($key == $settings['selected'] && $settings['compare_key'] === true)
-                                )
-                                        $return_string .= '<option value="'. $value .'" selected>'.$key.'</option>';
-                                else
-                                        $return_string .= '<option value="'. $value .'">'.$key.'</option>';
-                        }
-                }
-                
-                $return_string .= "</select>";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-        
-        static function create_link($settings)
-        {
-                $default_settings = array( 'href' => '', 'class' => '', 'text' => '', 'title' => '', 'type' => '', 'hreflang' => '', 'download' => false, 'return' => false);
-                $settings += $default_settings;
-                
-                $href =         empty($settings['href'])         ? "" : "href=\"" . $settings['href'] . "\"";
-                $class =        empty($settings['class'])        ? "" : "class=\"".$settings['class']."\"";
-                $title =        empty($settings['title'])        ? "" : "title=\"".$settings['title']."\"";
-                $type =         empty($settings['type'])         ? "" : "type=\"" . $settings['type'] . "\"";
-                $hreflang =     empty($settings['hreflang'])     ? "" : "hreflang=\"".$settings['hreflang']."\"";
-                $download =     empty($settings['download'])     ? "" : "download";
-                $text =         $settings['text'];
-                
-                $return_string = "<a ". $href ." ". $class . " ". $title . " " . $type . " " . $hreflang . " " . $download . ">" . $text . "</a>";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-        static function create_upload_file($settings)
-        {
-                $default_settings = array( 
-                'name' => '', 
-                'class' => '',
-                'id' => '',
-                'return' => false);
-                $settings += $default_settings;
-                
-                $name =         empty($settings['name'])        ? "" : " name=\"" . $settings['name'] . "\"";
-                $class =        empty($settings['class'])       ? "" : " class=\"".$settings['class']."\"";
-                $id =           empty($settings['class'])       ? "" : " class=\"".$settings['class']."\"";
-                
-                $return_string = "<input type=\"file\" " . $name . $id . $class . ">";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
         static function post_upload_file($settings)
         {
                 $default_settings = array( 
@@ -307,5 +223,6 @@ class xs_framework
                         }
                 }
         }
+       
 } 
 ?>

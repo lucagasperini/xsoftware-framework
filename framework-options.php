@@ -2,8 +2,6 @@
 
 if (!class_exists('xs_framework_options')) :
 
-include 'languages.php';
-
 class xs_framework_options
 {
         public $settings = array();
@@ -54,7 +52,7 @@ class xs_framework_options
         {
                 $current = $this->settings;
                 if(isset($input['add_lang']) && !empty($input['add_lang'])) {
-                        $lang_list = xs_language::get_name_list();
+                        $lang_list = xs_framework::get_name_list();
                         $current['available_languages'][$input['add_lang']] = $lang_list[$input['add_lang']];
                         $res = $this->download_language($input['add_lang']);
                         if($res == FALSE)
@@ -92,7 +90,7 @@ class xs_framework_options
                         $i++;
                 }
                 
-                $lang_list = xs_language::get_name_list();
+                $lang_list = xs_framework::get_name_list();
                 array_unshift($lang_list, 'Select a language');
                 
                 xs_framework::create_table( array( 
@@ -147,7 +145,7 @@ class xs_framework_options
         
         function download_language($lang_code) 
         {
-                $remoteFile = xs_language::get_download($lang_code);
+                $remoteFile = xs_framework::get_download($lang_code);
 
                 $lang_dir = WP_CONTENT_DIR . '/languages/';
                 $package = $lang_dir."package.zip";
