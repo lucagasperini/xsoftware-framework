@@ -53,7 +53,7 @@ class xs_framework_options
         function input($input)
         {
                 $current = $this->settings;
-                if(isset($input['add_lang'])) {
+                if(isset($input['add_lang']) && !empty($input['add_lang'])) {
                         $lang_list = xs_language::get_name_list();
                         $current['available_languages'][$input['add_lang']] = $lang_list[$input['add_lang']];
                         $res = $this->download_language($input['add_lang']);
@@ -64,6 +64,12 @@ class xs_framework_options
                         unset($current['available_languages'][$input['remove_lang']]);
                         $this->remove_language($input['remove_lang']);
                 }
+                if(isset($input['backend_language']) && !empty($input['backend_language']))
+                        $current['backend_language'] = $input['backend_language'];
+                        
+                if(isset($input['frontend_language']) && !empty($input['frontend_language']))
+                        $current['frontend_language'] = $input['frontend_language'];
+                        
                 return $current;
         }
         
@@ -85,7 +91,10 @@ class xs_framework_options
                         $langs[$i][] = $key;
                         $i++;
                 }
-               
+                
+                $lang_list = xs_language::get_name_list();
+                array_unshift($lang_list, 'Select a language');
+                
                 xs_framework::create_table( array( 
                         'data' => $langs,
                         'headers' => array('Actions', 'Language', 'Code')
@@ -93,7 +102,7 @@ class xs_framework_options
                 
                 $settings_field = array( 
                         'name' => 'xs_framework_options[add_lang]', 
-                        'data' => xs_language::get_name_list()
+                        'data' => $lang_list
                 );
                 
                 add_settings_field(
@@ -133,7 +142,6 @@ class xs_framework_options
                         'section_framework',
                         $options
                 );
-                
 
         }
         
@@ -168,6 +176,8 @@ class xs_framework_options
                 unlink($lang_dir.$lang_code.'.po');
                 return TRUE;
         }
+        
+
 
 
 }

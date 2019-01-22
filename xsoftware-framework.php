@@ -23,6 +23,8 @@ function xs_framework_init_meta_boxes() {
 }
 
 
+add_filter('locale', 'xs_framework::set_locale');
+
 class xs_framework
 {
 
@@ -42,6 +44,16 @@ class xs_framework
                 else
                         return $option;
         }
+        
+        static function set_locale() 
+        {
+                $options = self::get_option();
+                if ( is_admin() ) 
+                        return $options['backend_language'];
+                else
+                        return $options['frontend_language'];
+        }
+        
         static function init_admin_style()
         {
                 wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
