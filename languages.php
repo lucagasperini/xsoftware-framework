@@ -16,6 +16,13 @@ trait languages
                 }
         }
         
+        static function get_lang_property($lang)
+        {
+                self::check_translation();
+                
+                return self::$translations[$lang];
+        }
+        
         static function get_lang_name_list() 
         {
                 self::check_translation();
@@ -53,6 +60,39 @@ trait languages
                 else
                         return $options['frontend_language'];
         }
+        
+        static function get_available_language($query = array())
+        {
+                $default = array(
+                        'language' => FALSE,
+                        'version' => FALSE,
+                        'updated' => FALSE,
+                        'english_name' => TRUE,
+                        'native_name' => FALSE,
+                        'package' => FALSE,
+                        'iso' => FALSE
+                );
+                
+                $query += $default;
+                $offset = array();
+                $types = array();
+                
+                $languages = xs_framework::get_option('available_languages');
+                foreach($languages as $code => $prop) {
+                        foreach($query as $type => $value) {
+                                if($value !== FALSE) {
+                                        $offset[$code][$type] = $prop[$type];
+                                        $types[] = $type;
+                                }
+                        }
+                        if(count($types) == 1) {
+                                $offset[$code] = $offset[$code][$types[0]];
+                                $types = array();
+                        }
+                }
+
+                return $offset;
+        }
         /**
         * This function retrieves the user language from the browser. It reads the headers sent by the browser about language preferences.
         *
@@ -89,7 +129,7 @@ trait languages
         }
         }
         //get the languages activated in the site
-        $validLanguages = xs_framework::get_option('available_languages');
+        $languages = xs_framework::get_available_language();
         
         //validate the languages
         $max = 0.0;
@@ -113,7 +153,7 @@ trait languages
         if(false == $maxLang){
         foreach($parsedLanguages as $k => &$v){
                 //search only for the language
-                foreach($validLanguages as $vLang){
+                foreach($languages as $vLang){
                 if(substr($vLang, 0, 2) == substr($v['l'], 0, 2)){
                 //replace the preferred language
                 if($v['q'] > $max){

@@ -46,7 +46,7 @@ class xs_framework
         static function get_option($selected = NULL) 
         {
                 $default = array(
-                        'available_languages' => array('en_GB' => 'English (UK)'),
+                        'available_languages' => array('en_GB' => xs_framework::get_lang_property('en_GB')),
                         'frontend_language' => 'en_GB',
                         'backend_language' => 'en_GB'
                 );

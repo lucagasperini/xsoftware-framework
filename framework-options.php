@@ -52,8 +52,7 @@ class xs_framework_options
         {
                 $current = $this->settings;
                 if(isset($input['add_lang']) && !empty($input['add_lang'])) {
-                        $lang_list = xs_framework::get_lang_name_list();
-                        $current['available_languages'][$input['add_lang']] = $lang_list[$input['add_lang']];
+                        $current['available_languages'][$input['add_lang']] = xs_framework::get_lang_property($input['add_lang']);
                         $res = $this->download_language($input['add_lang']);
                         if($res == FALSE)
                                 return; //FIXME: Create an error handler!
@@ -75,27 +74,26 @@ class xs_framework_options
         {
                 $settings = $this->settings;
                 
-                $langs = array();
-                $i = 0;
-                foreach($settings['available_languages'] as $key => $value) {
-                        $langs[$i][] = xs_framework::create_button( array( 
-                                'name' => 'xs_framework_options[remove_lang]', 
-                                'class' => 'button-primary', 
-                                'value' => $key, 
-                                'text' => 'Remove', 
-                                'return' => true
-                        ));
-                        $langs[$i][] = $value;
-                        $langs[$i][] = $key;
-                        $i++;
+                $langs = $settings['available_languages'];
+
+                foreach ($langs as $code => $prop) {
+                        $delete_button = xs_framework::create_button( array( 
+                                        'name' => 'xs_framework_options[remove_lang]', 
+                                        'class' => 'button-primary', 
+                                        'value' => $code, 
+                                        'text' => 'Remove', 
+                                        'return' => true
+                                ));
+                        array_unshift($langs[$code], $delete_button);
+                        $langs[$code]['iso'] = $langs[$code]['iso'][1];
+                        unset($langs[$code]['strings']);
                 }
                 
                 $lang_list = xs_framework::get_lang_name_list();
                 array_unshift($lang_list, 'Select a language');
-                
                 xs_framework::create_table( array( 
                         'data' => $langs,
-                        'headers' => array('Actions', 'Language', 'Code')
+                        'headers' => array('Actions', 'Code', 'WP Version', 'Last Update', 'Name', 'Native Name', 'Package', 'ISO')
                 ));
                 
                 $settings_field = array( 
@@ -114,7 +112,7 @@ class xs_framework_options
                 
                 $options = array(
                         'name' => 'xs_framework_options[frontend_language]',
-                        'data' => $settings['available_languages'],
+                        'data' => xs_framework::get_available_language(),
                         'selected' => $settings['frontend_language']
                 );
         
@@ -129,7 +127,7 @@ class xs_framework_options
 
                 $options = array(
                         'name' => 'xs_framework_options[backend_language]',
-                        'data' => $settings['available_languages'],
+                        'data' => xs_framework::get_available_language(),
                         'selected' => $settings['backend_language']
                 );
                 add_settings_field(
