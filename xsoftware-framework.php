@@ -17,7 +17,6 @@ function load_framework()
         $options = xs_framework::get_option();
         //take language from browser setting
         $language = xs_framework::language_browser();
-        
         if(isset($options['available_languages'][$language])) {
                 $language = xs_framework::cookie_language($language);
         }
@@ -45,15 +44,15 @@ class xs_framework
         
         static function get_option($selected = NULL) 
         {
-                $default = array(
-                        'available_languages' => array('en_GB' => xs_framework::get_lang_property('en_GB')),
-                        'frontend_language' => 'en_GB',
-                        'backend_language' => 'en_GB'
-                );
-                
                 $option = get_option('xs_framework_options', array());
-                $option += $default;
-                
+                if(empty($option)) {
+                        $default = array(
+                                'available_languages' => array('en_GB' => xs_framework::get_lang_property('en_GB')),
+                                'frontend_language' => 'en_GB',
+                                'backend_language' => 'en_GB'
+                        );
+                        $option += $default;
+                }
                 if($selected != NULL)
                         return isset($option[$selected]) ? $option[$selected] : FALSE;
                 else
