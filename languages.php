@@ -89,7 +89,7 @@ trait languages
         }
         }
         //get the languages activated in the site
-        $validLanguages = uls_get_available_languages();
+        $validLanguages = xs_framework::get_option('available_languages');
         
         //validate the languages
         $max = 0.0;

@@ -35,11 +35,13 @@ add_filter('locale', 'xs_framework::set_locale');
 
 include 'html.php';
 include 'languages.php';
+include 'browser.php';
 
 class xs_framework
 {
         use html;
         use languages;
+        use browser;
         
         static function get_option($selected = NULL) 
         {
