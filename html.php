@@ -119,8 +119,8 @@ trait html
                 if($settings['reverse'] == false) {
                         foreach($settings['data'] as $key => $value ) {
                                 if(
-                                        ($settings['compare_key'] !== true && $value == $settings['selected'] ) ||
-                                        ($settings['compare_key'] === true && $key == $settings['selected'] )
+                                        ($settings['compare_key'] !== true && $value === $settings['selected'] ) ||
+                                        ($settings['compare_key'] === true && $key === $settings['selected'] )
                                 )
                                         $return_string .= '<option value="'. $key .'" selected>'.$value.'</option>';
                                 else
@@ -129,8 +129,8 @@ trait html
                 } else { 
                         foreach($settings['data'] as $key => $value ) {
                                 if(
-                                        ($value == $settings['selected'] && $settings['compare_key'] !== true) ||
-                                        ($key == $settings['selected'] && $settings['compare_key'] === true)
+                                        ($settings['compare_key'] !== true && $value === $settings['selected']) ||
+                                        ($settings['compare_key'] === true && $key === $settings['selected'])
                                 )
                                         $return_string .= '<option value="'. $value .'" selected>'.$key.'</option>';
                                 else
