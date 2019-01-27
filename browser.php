@@ -67,7 +67,7 @@ trait browser {
         foreach($parsedLanguages as $k => &$v){
         if(false !== $v['code']){
                 //search the language in the installed languages using the language and location
-                foreach($validLanguages as $vLang){
+                foreach($languages as $vLang){
                 if(strtolower($vLang) == $v['code']){
                 //replace the preferred language
                 if($v['q'] > $max){
