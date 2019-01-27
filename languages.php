@@ -20,7 +20,19 @@ trait languages
         {
                 self::check_translation();
                 
-                return self::$translations[$lang];
+                if(empty($lang))
+                        return array();
+                
+                $prop = self::$translations[$lang];
+                
+                if(strpos($lang, '_') !== FALSE)
+                        list($name, $iso) = explode('_', $lang);
+                else
+                        $iso = $lang;
+                
+                $prop['iso'] = strtolower($iso);
+                
+                return $prop;
         }
         
         static function get_lang_name_list() 

@@ -85,7 +85,6 @@ class xs_framework_options
                                         'return' => true
                                 ));
                         array_unshift($langs[$code], $delete_button);
-                        $langs[$code]['iso'] = $langs[$code]['iso'][1];
                         unset($langs[$code]['strings']);
                 }
                 
