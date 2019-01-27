@@ -105,39 +105,40 @@ trait html
                                         'class' => '', 
                                         'data' => array(), 
                                         'selected' => '', 
-                                        'compare_key' => true, 
-                                        'reverse' => false,
+                                        'default' => '',
+                                        'compare_key' => true,
                                         'return' => false
                                         );
                                         
                 $settings += $default_settings;
                 $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                $default = empty($settings['default']) ? "" : "<option disabled value=\"\" selected>".$settings['default']."</option>";
                 
                 $return_string = "<select ".$class." ". $name . " >";
+                        
+                $buffer = '';
+                $one_selected = FALSE;
+               
+                foreach($settings['data'] as $key => $value ) {
                 
-                if($settings['reverse'] == false) {
-                        foreach($settings['data'] as $key => $value ) {
-                                if(
-                                        ($settings['compare_key'] !== true && $value === $settings['selected'] ) ||
-                                        ($settings['compare_key'] === true && $key === $settings['selected'] )
-                                )
-                                        $return_string .= '<option value="'. $key .'" selected>'.$value.'</option>';
-                                else
-                                        $return_string .= '<option value="'. $key .'">'.$value.'</option>';
-                        }
-                } else { 
-                        foreach($settings['data'] as $key => $value ) {
-                                if(
-                                        ($settings['compare_key'] !== true && $value === $settings['selected']) ||
-                                        ($settings['compare_key'] === true && $key === $settings['selected'])
-                                )
-                                        $return_string .= '<option value="'. $value .'" selected>'.$key.'</option>';
-                                else
-                                        $return_string .= '<option value="'. $value .'">'.$key.'</option>';
+                        if($settings['compare_key'] !== true)
+                                $compare = $value;
+                        else
+                                $compare = $key;
+                        
+                        if($compare === $settings['selected']) {
+                                $buffer .= '<option value="'. $key .'" selected>'.$value.'</option>';
+                                $one_selected = TRUE;
+                        } else {
+                                $buffer .= '<option value="'. $key .'">'.$value.'</option>';
                         }
                 }
                 
+                if(!empty($default) && $one_selected === FALSE)
+                        $return_string .= $default;
+                
+                $return_string .= $buffer;
                 $return_string .= "</select>";
                 
                 if($settings['return'] == false)
