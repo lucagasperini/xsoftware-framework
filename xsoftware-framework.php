@@ -17,6 +17,7 @@ function load_framework()
         $options = xs_framework::get_option();
         //take language from browser setting
         $language = xs_framework::language_browser();
+                
         if(isset($options['available_languages'][$language])) {
                 $language = xs_framework::cookie_language($language);
         }

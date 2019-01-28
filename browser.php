@@ -7,7 +7,6 @@ trait browser {
         */
         static function get_browser_url()
         {
-
                 if(!isset($_SERVER['HTTP_HOST']) || !isset($_SERVER['REQUEST_URI']))
                         return false;
                 
@@ -21,6 +20,20 @@ trait browser {
                 $url .= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
                 
                 return $url;
+        }
+        
+        static function append_query_url($url, $query)
+        {
+                $offset = $url;
+                if(strpos($offset, '?') === false)
+                {
+                        $offset .= '?';
+                }
+                
+                foreach($query as $key => $value)
+                        $offset .= '&' . $key . '=' . $value;
+                
+                return $offset;
         }
         
         /**
