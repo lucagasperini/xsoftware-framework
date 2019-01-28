@@ -112,7 +112,7 @@ trait languages
                         return NULL;
                         
                 if(!isset($_COOKIE['xs_framework_user_language'])){
-                        setcookie('xs_framework_user_language', $language, time()+2*60*60, "/"); //set a cookie for 2 hour
+                        setcookie('xs_framework_user_language', $language, time()+24*60*60, "/"); //set a cookie for 24 hour
                         return $language;
                 } else {
                         return $_COOKIE['xs_framework_user_language'];
