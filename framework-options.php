@@ -137,6 +137,26 @@ class xs_framework_options
                         'section_framework',
                         $options
                 );
+                
+                $colors = $settings['available_colors'];
+                $table = array();
+                foreach ($colors as $name => $url) {
+                        $delete_button = xs_framework::create_button( array( 
+                                        'name' => 'xs_framework_options[remove_lang]', 
+                                        'class' => 'button-primary', 
+                                        'value' => $name, 
+                                        'text' => 'Remove', 
+                                        'return' => true
+                                ));
+                        $table[$name][] = $delete_button;
+                        $table[$name][] = $name; 
+                        $table[$name][] = $url;
+                }
+               
+                xs_framework::create_table( array( 
+                        'data' => $table,
+                        'headers' => array('Actions', 'Name', 'Url')
+                ));
 
         }
         
