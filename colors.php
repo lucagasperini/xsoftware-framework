@@ -10,16 +10,6 @@ trait colors
                 return $offset;
         }
         
-        static function set_colors_theme($name)
-        {
-                $colors = xs_framework::get_option('available_colors');
-                $offset = isset($colors[$name]) ? $colors[$name] : 'default';
-                
-                xs_framework::update_options('colors_theme', $offset);
-
-                return $offset;
-        }
-        
         static function menu_colors($items)
         {
                 $colors = xs_framework::get_option('available_colors');
