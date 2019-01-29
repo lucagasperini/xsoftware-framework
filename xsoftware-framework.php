@@ -15,9 +15,9 @@ function load_framework()
         include 'framework-options.php';
 }
 
-add_action( 'init', 'xs_framework_init_meta_boxes', 0 );
+add_action( 'init', 'xs_framework_init', 0 );
 
-function xs_framework_init_meta_boxes() {
+function xs_framework_init() {
     if( ! class_exists( 'cmb_Meta_Box' ) )
         require_once(plugin_dir_path( __FILE__ ) . 'meta-boxes.php');
         
@@ -32,7 +32,7 @@ function xs_framework_init_meta_boxes() {
         }
         if(isset($_COOKIE['xs_colors_theme_select']) && 
         isset($options['available_colors'][$_COOKIE['xs_colors_theme_select']]) && 
-        $_COOKIE['xs_colors_theme_select'] !== 'default') {
+        $_COOKIE['xs_colors_theme_select'] !== 'default' && !is_admin()) {
                 wp_enqueue_style('xs_framework_colors_style', $options['available_colors'][$_COOKIE['xs_colors_theme_select']], __FILE__);
         }
 }
