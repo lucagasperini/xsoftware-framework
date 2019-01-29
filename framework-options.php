@@ -67,14 +67,86 @@ class xs_framework_options
                 if(isset($input['frontend_language']) && !empty($input['frontend_language']))
                         $current['frontend_language'] = $input['frontend_language'];
                         
+                if(isset($input['new_color']) && !empty($input['new_color']) && !empty($input['new_color']['name']))
+                        $current['available_colors'][$input['new_color']['name']] = $input['new_color']['url'];
+               
+                if(isset($input['remove_color']) && !empty($input['remove_color']))
+                        unset($current['available_colors'][$input['remove_color']]);
+                        
                 return $current;
         }
         
         function show()
         {
-                $settings = $this->settings;
+                // get the current tab or default tab
+                $current = isset($_GET['tab']) ? $_GET['tab'] : 'homepage';
+                // add the tabs that you want to use in the plugin
+                $tabs = array(
+                        'homepage' => 'Homepage',
+                        'language' => 'Languages',
+                        'colors' => 'Colors'
+                );
+                echo '<h2 class="nav-tab-wrapper">';
+                // configurate the url with your personal_url and add the class for the activate tab
+                foreach( $tabs as $tab => $name ){
+                        $class = ( $tab == $current ) ? ' nav-tab-active' : '';
+                        echo "<a class='nav-tab$class' href='?page=xsoftware&tab=$tab'>$name</a>";
+                }
+                echo '</h2>';
                 
-                $langs = $settings['available_languages'];
+                switch($current)
+                {
+                        case 'homepage':
+                                return;
+                        case 'language':
+                                $this->show_languages();
+                                return;
+                        case 'colors': 
+                                $this->show_colors();
+                                return;
+                }
+
+        }
+        
+        function show_colors()
+        {
+                $colors = $this->settings['available_colors'];
+
+                $table = array();
+                foreach ($colors as $name => $url) {
+                        $delete_button = xs_framework::create_button( array( 
+                                        'name' => 'xs_framework_options[remove_color]', 
+                                        'class' => 'button-primary', 
+                                        'value' => $name, 
+                                        'text' => 'Remove', 
+                                        'return' => true
+                                ));
+                        $table[$name][] = $delete_button;
+                        $table[$name][] = $name; 
+                        $table[$name][] = $url;
+                }
+                $add = array();
+                $add[] = '';
+                $add[] = xs_framework::create_input( array(
+                        'name' => 'xs_framework_options[new_color][name]',
+                        'return' => TRUE
+                ));
+                $add[] = xs_framework::create_input( array(
+                        'name' => 'xs_framework_options[new_color][url]',
+                        'return' => TRUE
+                ));
+                
+                $table[] = $add;
+                
+                xs_framework::create_table( array( 
+                        'data' => $table,
+                        'headers' => array('Actions', 'Name', 'Url')
+                ));
+        }
+        
+        function show_languages()
+        {
+                $langs = $this->settings['available_languages'];
 
                 foreach ($langs as $code => $prop) {
                         $delete_button = xs_framework::create_button( array( 
@@ -95,24 +167,24 @@ class xs_framework_options
                         'headers' => array('Actions', 'Code', 'WP Version', 'Last Update', 'Name', 'Native Name', 'Package', 'ISO')
                 ));
                 
-                $settings_field = array( 
+                $this->settings_field = array( 
                         'name' => 'xs_framework_options[add_lang]', 
                         'data' => $lang_list
                 );
                 
                 add_settings_field(
-                        $settings_field['name'], 
+                        $this->settings_field['name'], 
                         'Add new language:',
                         'xs_framework::create_select',
                         'framework',
                         'section_framework',
-                        $settings_field
+                        $this->settings_field
                 );
                 
                 $options = array(
                         'name' => 'xs_framework_options[frontend_language]',
                         'data' => xs_framework::get_available_language(),
-                        'selected' => $settings['frontend_language']
+                        'selected' => $this->settings['frontend_language']
                 );
         
                 add_settings_field(
@@ -127,7 +199,7 @@ class xs_framework_options
                 $options = array(
                         'name' => 'xs_framework_options[backend_language]',
                         'data' => xs_framework::get_available_language(),
-                        'selected' => $settings['backend_language']
+                        'selected' => $this->settings['backend_language']
                 );
                 add_settings_field(
                         $options['name'],
@@ -137,27 +209,6 @@ class xs_framework_options
                         'section_framework',
                         $options
                 );
-                
-                $colors = $settings['available_colors'];
-                $table = array();
-                foreach ($colors as $name => $url) {
-                        $delete_button = xs_framework::create_button( array( 
-                                        'name' => 'xs_framework_options[remove_lang]', 
-                                        'class' => 'button-primary', 
-                                        'value' => $name, 
-                                        'text' => 'Remove', 
-                                        'return' => true
-                                ));
-                        $table[$name][] = $delete_button;
-                        $table[$name][] = $name; 
-                        $table[$name][] = $url;
-                }
-               
-                xs_framework::create_table( array( 
-                        'data' => $table,
-                        'headers' => array('Actions', 'Name', 'Url')
-                ));
-
         }
         
         function download_language($lang_code) 
