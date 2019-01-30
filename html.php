@@ -188,5 +188,31 @@ trait html
                 else
                         return $return_string;
         }
+        
+        static function create_tabs($settings)
+        {
+                $default_settings = array(
+                        'href' => '',
+                        'tabs' => '',
+                        'home' => ''
+                );
+                
+                $settings += $default_settings;
+
+                $home = isset($settings['home']) ? $settings['home'] : '';
+                $current = isset($_GET['xs_current_tab']) ? $_GET['xs_current_tab'] : $home;
+                $tabs = $settings['tabs'];
+                
+                echo '<h2 class="nav-tab-wrapper">';
+                // configurate the url with your personal_url and add the class for the activate tab
+                foreach( $tabs as $code => $title ){
+                        $class = ( $code == $current ) ? ' nav-tab-active' : '';
+                        $url = xs_framework::append_query_url($settings['href'], array('xs_current_tab' => $code));
+                        echo '<a class="nav-tab'.$class.'" href="'.$url.'">'.$title.'</a>';
+                }
+                echo '</h2>';
+
+                return $current;
+        }
 }
 ?>
