@@ -37,14 +37,14 @@ function xs_framework_init() {
 include 'html.php';
 include 'languages.php';
 include 'browser.php';
-include 'colors.php';
+include 'style.php';
 
 class xs_framework
 {
         use html;
         use languages;
         use browser;
-        use colors;
+        use style;
         
         static function get_option($selected = NULL) 
         {  

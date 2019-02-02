@@ -1,6 +1,6 @@
 <?php
 
-trait colors
+trait style
 {
 
         static function get_colors_theme($name)
