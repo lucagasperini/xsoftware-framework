@@ -194,20 +194,22 @@ trait html
                 $default_settings = array(
                         'href' => '',
                         'tabs' => '',
-                        'home' => ''
+                        'home' => '',
+                        'name' => ''
                 );
                 
                 $settings += $default_settings;
-
+                
+                $name = isset($settings['name']) ? $settings['name'] : 'xs_current_tab';
                 $home = isset($settings['home']) ? $settings['home'] : '';
-                $current = isset($_GET['xs_current_tab']) ? $_GET['xs_current_tab'] : $home;
+                $current = isset($_GET[$name]) ? $_GET[$name] : $home;
                 $tabs = $settings['tabs'];
                 
                 echo '<h2 class="nav-tab-wrapper">';
                 // configurate the url with your personal_url and add the class for the activate tab
                 foreach( $tabs as $code => $title ){
                         $class = ( $code == $current ) ? ' nav-tab-active' : '';
-                        $url = xs_framework::append_query_url($settings['href'], array('xs_current_tab' => $code));
+                        $url = xs_framework::append_query_url($settings['href'], array($name => $code));
                         echo '<a class="nav-tab'.$class.'" href="'.$url.'">'.$title.'</a>';
                 }
                 echo '</h2>';

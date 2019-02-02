@@ -64,15 +64,6 @@ trait languages
                 return self::$translations[$lang]['package'];
         }
         
-        static function set_locale() 
-        {
-                $options = self::get_option();
-                if ( is_admin() ) 
-                        return $options['backend_language'];
-                else
-                        return $options['frontend_language'];
-        }
-        
         static function get_available_language($query = array())
         {
                 $default = array(
@@ -123,6 +114,40 @@ trait languages
         {
                 return isset($_COOKIE['xs_framework_user_language']) ? $_COOKIE['xs_framework_user_language'] : self::get_option('frontend_language');
         }
+        
+                
+        static function download_language($lang_code) 
+        {
+                $remoteFile = xs_framework::get_lang_download($lang_code);
+
+                $lang_dir = WP_CONTENT_DIR . '/languages/';
+                $package = $lang_dir."package.zip";
+
+                $flag = file_put_contents($package, fopen($remoteFile, 'r'));
+
+                if($flag === FALSE || !class_exists('ZipArchive'))
+                        return FALSE;
+                        
+                $zip = new ZipArchive;
+                
+                if ($zip->open($package) !== TRUE)
+                        return FALSE;
+
+                $zip->extractTo($lang_dir, array($lang_code.".mo", $lang_code.".po"));
+                $zip->close();
+                unlink($package);
+
+                return TRUE;
+        }
+        
+        static function remove_language($lang_code)
+        {
+                $lang_dir = WP_CONTENT_DIR . '/languages/';
+                unlink($lang_dir.$lang_code.'.mo');
+                unlink($lang_dir.$lang_code.'.po');
+                return TRUE;
+        }
+        
         
 }
 ?>

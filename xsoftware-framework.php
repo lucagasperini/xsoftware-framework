@@ -30,17 +30,9 @@ function xs_framework_init() {
         if(isset($options['available_languages'][$language])) {
                 $language = xs_framework::cookie_language($language);
         }
-        if(isset($_COOKIE['xs_colors_theme_select']) && 
-        isset($options['available_colors'][$_COOKIE['xs_colors_theme_select']]) && 
-        $_COOKIE['xs_colors_theme_select'] !== 'default' && !is_admin()) {
-                wp_enqueue_style('xs_framework_colors_style', $options['available_colors'][$_COOKIE['xs_colors_theme_select']], __FILE__);
-        }
 }
 
-add_filter('wp_nav_menu_items', 'xs_framework::menu_colors', 10, 2);
-
-
-add_filter('locale', 'xs_framework::set_locale');
+//add_filter('wp_nav_menu_items', 'xs_framework::menu_colors', 10, 2);
 
 include 'html.php';
 include 'languages.php';
@@ -55,15 +47,40 @@ class xs_framework
         use colors;
         
         static function get_option($selected = NULL) 
-        {      
+        {  
                 $option = get_option('xs_framework_options', array());
                 if(empty($option)) {
+                        xs_framework::download_language('en_GB');
                         $default = array(
                                 'available_languages' => array('en_GB' => xs_framework::get_lang_property('en_GB')),
-                                'frontend_language' => 'en_GB',
-                                'backend_language' => 'en_GB',
                                 'available_colors' => array('default' => '', 'dark' => plugins_url('style/colors-dark.css', __FILE__)),
                                 'colors_theme' => 'default',
+                                'colors' => array( 
+                                        'primary' => array(
+                                                'name' => '.xs_primary',
+                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
+                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                        ),
+                                        'secondary' => array(
+                                                'name' => '.xs_secondary',
+                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
+                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                        ),
+                                        'body' => array(
+                                                'name' => '.xs_body',
+                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
+                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                        ),
+                                        'text' => array(
+                                                'name' => '.xs_text',
+                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
+                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                        )
+                                )
                         );
                         $option += $default;
                 }

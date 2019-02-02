@@ -11,6 +11,13 @@ class xs_framework_options
                 add_action('admin_menu', array($this, 'admin_menu'), 0); //Load it first!
                 add_action('admin_init', array($this, 'section_menu'), 0); //Load it first!
                 $this->settings = xs_framework::get_option();
+                add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+        }
+        
+        
+        function enqueue_styles()
+        {
+                wp_enqueue_style('xs_framework_globals_style', content_url('xsoftware/style/xsoftware.css'));
         }
         
         function admin_menu()
@@ -53,13 +60,13 @@ class xs_framework_options
                 $current = $this->settings;
                 if(isset($input['add_lang']) && !empty($input['add_lang'])) {
                         $current['available_languages'][$input['add_lang']] = xs_framework::get_lang_property($input['add_lang']);
-                        $res = $this->download_language($input['add_lang']);
+                        $res = xs_framework::download_language($input['add_lang']);
                         if($res == FALSE)
                                 return; //FIXME: Create an error handler!
                 }
                 if(isset($input['remove_lang'])) {
                         unset($current['available_languages'][$input['remove_lang']]);
-                        $this->remove_language($input['remove_lang']);
+                        xs_framework::remove_language($input['remove_lang']);
                 }
                 if(isset($input['backend_language']) && !empty($input['backend_language']))
                         $current['backend_language'] = $input['backend_language'];
@@ -73,42 +80,65 @@ class xs_framework_options
                 if(isset($input['remove_color']) && !empty($input['remove_color']))
                         unset($current['available_colors'][$input['remove_color']]);
                         
+                if(isset($input['colors']) && !empty($input['colors'])) {
+                        $current['colors'] = $input['colors'];
+                        xs_framework::generate_css($current['colors'], 'xsoftware.css');
+                }
+                        
                 return $current;
         }
         
         function show()
         {
-                // get the current tab or default tab
-                $current = isset($_GET['tab']) ? $_GET['tab'] : 'homepage';
-                // add the tabs that you want to use in the plugin
-                $tabs = array(
-                        'homepage' => 'Homepage',
-                        'language' => 'Languages',
-                        'colors' => 'Colors'
-                );
-                echo '<h2 class="nav-tab-wrapper">';
-                // configurate the url with your personal_url and add the class for the activate tab
-                foreach( $tabs as $tab => $name ){
-                        $class = ( $tab == $current ) ? ' nav-tab-active' : '';
-                        echo "<a class='nav-tab$class' href='?page=xsoftware&tab=$tab'>$name</a>";
-                }
-                echo '</h2>';
+                $tab = xs_framework::create_tabs( array(
+                        'href' => '?page=xsoftware',
+                        'tabs' => array(
+                                'homepage' => 'Homepage',
+                                'language' => 'Languages',
+                                'style' => 'Styles'
+                        ),
+                        'home' => 'homepage',
+                        'name' => 'main_tab'
+                ));
                 
-                switch($current)
+                switch($tab)
                 {
                         case 'homepage':
                                 return;
                         case 'language':
                                 $this->show_languages();
                                 return;
-                        case 'colors': 
-                                $this->show_colors();
+                        case 'style': 
+                                $this->show_style();
                                 return;
                 }
 
         }
         
-        function show_colors()
+        function show_style()
+        {
+                $tab = xs_framework::create_tabs( array(
+                        'href' => '?page=xsoftware&main_tab=style',
+                        'tabs' => array(
+                                'style' => 'Styles',
+                                'color' => 'Colors' 
+                        ),
+                        'home' => 'style',
+                        'name' => 'style_tab'
+                ));
+                
+                switch($tab)
+                {
+                        case 'style':
+                                $this->show_style_queue();
+                                return;
+                        case 'color':
+                                $this->show_style_colors();
+                                return;
+                }
+        }
+        
+        function show_style_queue()
         {
                 $colors = $this->settings['available_colors'];
 
@@ -142,6 +172,80 @@ class xs_framework_options
                         'data' => $table,
                         'headers' => array('Actions', 'Name', 'Url')
                 ));
+        }
+        
+        function show_style_colors()
+        {
+                $colors = $this->settings['colors'];
+                
+                foreach($colors as $name => $prop) {
+                        xs_framework::create_input( array(
+                                'type' => 'hidden',
+                                'value' => $prop['name'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][name]'
+                        ));
+                        $data[$name][] = $name;
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['default']['text'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][default][text]',
+                                'return' => TRUE
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['hover']['text'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][hover][text]',
+                                'return' => TRUE
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['focus']['text'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][focus][text]',
+                                'return' => TRUE
+                        ));
+                        
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['default']['bg'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][default][bg]',
+                                'return' => TRUE
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['hover']['bg'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][hover][bg]',
+                                'return' => TRUE
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['focus']['bg'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][focus][bg]',
+                                'return' => TRUE
+                        ));
+                        
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['default']['bord'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][default][bord]',
+                                'return' => TRUE
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['hover']['bord'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][hover][bord]',
+                                'return' => TRUE
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['focus']['bord'],
+                                'name' => 'xs_framework_options[colors]['.$name.'][focus][bord]',
+                                'return' => TRUE
+                        ));
+                }
+                $headers = array(
+                        'Name', 
+                        'Color', 
+                        'Hover', 
+                        'Focus', 
+                        'Background Color', 
+                        'Background Hover', 
+                        'Background Focus', 
+                        'Border Color',
+                        'Border Hover',
+                        'Border Focus'
+                );
+                xs_framework::create_table(array('headers' => $headers, 'data' => $data));
         }
         
         function show_languages()
@@ -180,71 +284,7 @@ class xs_framework_options
                         'section_framework',
                         $this->settings_field
                 );
-                
-                $options = array(
-                        'name' => 'xs_framework_options[frontend_language]',
-                        'data' => xs_framework::get_available_language(),
-                        'selected' => $this->settings['frontend_language']
-                );
-        
-                add_settings_field(
-                        $options['name'],
-                        'Default language',
-                        'xs_framework::create_select',
-                        'framework',
-                        'section_framework',
-                        $options
-                );
-
-                $options = array(
-                        'name' => 'xs_framework_options[backend_language]',
-                        'data' => xs_framework::get_available_language(),
-                        'selected' => $this->settings['backend_language']
-                );
-                add_settings_field(
-                        $options['name'],
-                        'Default language for admin side',
-                        'xs_framework::create_select',
-                        'framework',
-                        'section_framework',
-                        $options
-                );
         }
-        
-        function download_language($lang_code) 
-        {
-                $remoteFile = xs_framework::get_lang_download($lang_code);
-
-                $lang_dir = WP_CONTENT_DIR . '/languages/';
-                $package = $lang_dir."package.zip";
-
-                $flag = file_put_contents($package, fopen($remoteFile, 'r'));
-
-                if($flag === FALSE || !class_exists('ZipArchive'))
-                        return FALSE;
-                        
-                $zip = new ZipArchive;
-                
-                if ($zip->open($package) !== TRUE)
-                        return FALSE;
-
-                $zip->extractTo($lang_dir, array($lang_code.".mo", $lang_code.".po"));
-                $zip->close();
-                unlink($package);
-
-                return TRUE;
-        }
-        
-        function remove_language($lang_code)
-        {
-                $lang_dir = WP_CONTENT_DIR . '/languages/';
-                unlink($lang_dir.$lang_code.'.mo');
-                unlink($lang_dir.$lang_code.'.po');
-                return TRUE;
-        }
-        
-
-
 
 }
 
