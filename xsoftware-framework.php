@@ -17,10 +17,8 @@ function load_framework()
 
 add_action( 'init', 'xs_framework_init', 0 );
 
-function xs_framework_init() {
-    if( ! class_exists( 'cmb_Meta_Box' ) )
-        require_once(plugin_dir_path( __FILE__ ) . 'meta-boxes.php');
-        
+function xs_framework_init() 
+{
         xs_framework::init_script();
         
         $options = xs_framework::get_option();
