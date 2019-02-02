@@ -68,17 +68,6 @@ class xs_framework_options
                         unset($current['available_languages'][$input['remove_lang']]);
                         xs_framework::remove_language($input['remove_lang']);
                 }
-                if(isset($input['backend_language']) && !empty($input['backend_language']))
-                        $current['backend_language'] = $input['backend_language'];
-                        
-                if(isset($input['frontend_language']) && !empty($input['frontend_language']))
-                        $current['frontend_language'] = $input['frontend_language'];
-                        
-                if(isset($input['new_color']) && !empty($input['new_color']) && !empty($input['new_color']['name']))
-                        $current['available_colors'][$input['new_color']['name']] = $input['new_color']['url'];
-               
-                if(isset($input['remove_color']) && !empty($input['remove_color']))
-                        unset($current['available_colors'][$input['remove_color']]);
                         
                 if(isset($input['colors']) && !empty($input['colors'])) {
                         $current['colors'] = $input['colors'];
@@ -123,58 +112,18 @@ class xs_framework_options
                 $tab = xs_framework::create_tabs( array(
                         'href' => '?page=xsoftware&main_tab=style',
                         'tabs' => array(
-                                'style' => 'Styles',
                                 'color' => 'Colors' 
                         ),
-                        'home' => 'style',
+                        'home' => 'color',
                         'name' => 'style_tab'
                 ));
                 
                 switch($tab)
                 {
-                        case 'style':
-                                $this->show_style_queue();
-                                return;
                         case 'color':
                                 $this->show_style_colors();
                                 return;
                 }
-        }
-        
-        function show_style_queue()
-        {
-                $colors = $this->settings['available_colors'];
-
-                $table = array();
-                foreach ($colors as $name => $url) {
-                        $delete_button = xs_framework::create_button( array( 
-                                        'name' => 'xs_framework_options[remove_color]', 
-                                        'class' => 'button-primary', 
-                                        'value' => $name, 
-                                        'text' => 'Remove', 
-                                        'return' => true
-                                ));
-                        $table[$name][] = $delete_button;
-                        $table[$name][] = $name; 
-                        $table[$name][] = $url;
-                }
-                $add = array();
-                $add[] = '';
-                $add[] = xs_framework::create_input( array(
-                        'name' => 'xs_framework_options[new_color][name]',
-                        'return' => TRUE
-                ));
-                $add[] = xs_framework::create_input( array(
-                        'name' => 'xs_framework_options[new_color][url]',
-                        'return' => TRUE
-                ));
-                
-                $table[] = $add;
-                
-                xs_framework::create_table( array( 
-                        'data' => $table,
-                        'headers' => array('Actions', 'Name', 'Url')
-                ));
         }
         
         function show_style_colors()
