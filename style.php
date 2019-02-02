@@ -27,7 +27,7 @@ trait style
                 return $items . $offset;
         }
         
-        function generate_css($colors, $filename) 
+        function generate_css($colors, $filename, $typedef = array()) 
         {
                 $xs_dir = WP_CONTENT_DIR . '/xsoftware/';
                 if(is_dir($xs_dir) === FALSE)
@@ -38,8 +38,7 @@ trait style
                 
                 $css = '';
                 
-                foreach($colors as $prop) {
-                        $name = $prop['name'];
+                foreach($colors as $name => $prop) {
                         foreach($prop as $type => $value) {
                                 $class = '';
                                 $not_empty = FALSE;
@@ -50,15 +49,18 @@ trait style
                                         $class .= $name . ':' . $type . '{';
                                         
                                 if(!empty($value['text'])) {
-                                        $class .= 'color:' . $value['text'] . ';';
+                                        $val = isset($typedef[$value['text']]) ? $typedef[$value['text']] : $value['text'];
+                                        $class .= 'color:' . $val . ';';
                                         $not_empty = TRUE;
                                 }
                                 if(!empty($value['bg'])) {
-                                        $class .= 'background-color:' . $value['bg'] . ';';
+                                        $val = isset($typedef[$value['bg']]) ? $typedef[$value['bg']] : $value['bg'];
+                                        $class .= 'background-color:' . $val . ';';
                                         $not_empty = TRUE;
                                 }
                                 if(!empty($value['bord'])) {
-                                        $class .= 'border-color:' . $value['bord'] . ';';
+                                        $val = isset($typedef[$value['bord']]) ? $typedef[$value['bord']] : $value['bord'];
+                                        $class .= 'border-color:' . $val . ';';
                                         $not_empty = TRUE;
                                 }
                                 

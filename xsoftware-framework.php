@@ -47,39 +47,34 @@ class xs_framework
         use style;
         
         static function get_option($selected = NULL) 
-        {  
+        {
                 $option = get_option('xs_framework_options', array());
                 if(empty($option)) {
                         xs_framework::download_language('en_GB');
                         $default = array(
                                 'available_languages' => array('en_GB' => xs_framework::get_lang_property('en_GB')),
-                                'available_colors' => array('default' => '', 'dark' => plugins_url('style/colors-dark.css', __FILE__)),
-                                'colors_theme' => 'default',
-                                'colors' => array( 
-                                        'primary' => array(
-                                                'name' => '.xs_primary',
-                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
-                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                'style' => array( 
+                                        '.xs_primary' => array(
+                                                'default' => array( 'text' => 'primary' , 'bg' => '', 'bord' => ''), 
+                                                'hover' => array( 'text' => '' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '' , 'bg' => '', 'bord' => ''),
                                         ),
-                                        'secondary' => array(
-                                                'name' => '.xs_secondary',
-                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
-                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                        '.xs_secondary' => array(
+                                                'default' => array( 'text' => 'secondary' , 'bg' => '', 'bord' => ''), 
+                                                'hover' => array( 'text' => '' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '' , 'bg' => '', 'bord' => ''),
                                         ),
-                                        'body' => array(
-                                                'name' => '.xs_body',
-                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
-                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
-                                        ),
-                                        'text' => array(
-                                                'name' => '.xs_text',
-                                                'default' => array( 'text' => '#FFB342' , 'bg' => '', 'bord' => ''), 
-                                                'hover' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '#FFFFFF' , 'bg' => '', 'bord' => ''),
+                                        '.xs_body' => array(
+                                                'default' => array( 'text' => 'text' , 'bg' => 'background', 'bord' => ''), 
+                                                'hover' => array( 'text' => '' , 'bg' => '', 'bord' => ''), 
+                                                'focus' => array( 'text' => '' , 'bg' => '', 'bord' => ''),
                                         )
+                                ),
+                                'colors' => array(
+                                        'primary' => '#FFB342',
+                                        'secondary' => '#999999',
+                                        'background' => '#DDDDDD',
+                                        'text' => '#222222'
                                 )
                         );
                         $option += $default;

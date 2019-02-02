@@ -82,7 +82,10 @@ class xs_framework_options
                         
                 if(isset($input['colors']) && !empty($input['colors'])) {
                         $current['colors'] = $input['colors'];
-                        xs_framework::generate_css($current['colors'], 'xsoftware.css');
+                }
+                if(isset($input['style']) && !empty($input['style'])) {
+                        $current['style'] = $input['style'];
+                        xs_framework::generate_css($current['style'], 'xsoftware.css', $current['colors']);
                 }
                         
                 return $current;
@@ -176,60 +179,55 @@ class xs_framework_options
         
         function show_style_colors()
         {
-                $colors = $this->settings['colors'];
+                $colors = $this->settings['style'];
                 
                 foreach($colors as $name => $prop) {
-                        xs_framework::create_input( array(
-                                'type' => 'hidden',
-                                'value' => $prop['name'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][name]'
-                        ));
                         $data[$name][] = $name;
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['default']['text'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][default][text]',
+                                'name' => 'xs_framework_options[style]['.$name.'][default][text]',
                                 'return' => TRUE
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['hover']['text'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][hover][text]',
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][text]',
                                 'return' => TRUE
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['focus']['text'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][focus][text]',
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][text]',
                                 'return' => TRUE
                         ));
                         
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['default']['bg'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][default][bg]',
+                                'name' => 'xs_framework_options[style]['.$name.'][default][bg]',
                                 'return' => TRUE
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['hover']['bg'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][hover][bg]',
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][bg]',
                                 'return' => TRUE
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['focus']['bg'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][focus][bg]',
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][bg]',
                                 'return' => TRUE
                         ));
                         
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['default']['bord'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][default][bord]',
+                                'name' => 'xs_framework_options[style]['.$name.'][default][bord]',
                                 'return' => TRUE
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['hover']['bord'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][hover][bord]',
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][bord]',
                                 'return' => TRUE
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['focus']['bord'],
-                                'name' => 'xs_framework_options[colors]['.$name.'][focus][bord]',
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][bord]',
                                 'return' => TRUE
                         ));
                 }
@@ -246,6 +244,68 @@ class xs_framework_options
                         'Border Focus'
                 );
                 xs_framework::create_table(array('headers' => $headers, 'data' => $data));
+                
+                $colors = $this->settings['colors'];
+
+                $settings = array( 
+                        'type' => 'color',
+                        'name' => 'xs_framework_options[colors][primary]', 
+                        'value' => $colors['primary']
+                );
+                
+                add_settings_field(
+                        $settings['name'], 
+                        'Primary Color:',
+                        'xs_framework::create_input',
+                        'framework',
+                        'section_framework',
+                        $settings
+                );
+                
+                $settings = array( 
+                        'type' => 'color',
+                        'name' => 'xs_framework_options[colors][secondary]', 
+                        'value' => $colors['secondary']
+                );
+                
+                add_settings_field(
+                        $settings['name'], 
+                        'Secondary Color:',
+                        'xs_framework::create_input',
+                        'framework',
+                        'section_framework',
+                        $settings
+                );
+                
+                $settings = array( 
+                        'type' => 'color',
+                        'name' => 'xs_framework_options[colors][background]', 
+                        'value' => $colors['background']
+                );
+                
+                add_settings_field(
+                        $settings['name'], 
+                        'Background Color:',
+                        'xs_framework::create_input',
+                        'framework',
+                        'section_framework',
+                        $settings
+                );
+                
+                $settings = array( 
+                        'type' => 'color',
+                        'name' => 'xs_framework_options[colors][text]', 
+                        'value' => $colors['text']
+                );
+                
+                add_settings_field(
+                        $settings['name'], 
+                        'Text Color:',
+                        'xs_framework::create_input',
+                        'framework',
+                        'section_framework',
+                        $settings
+                );
         }
         
         function show_languages()
