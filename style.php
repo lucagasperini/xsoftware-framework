@@ -27,7 +27,7 @@ trait style
                 return $items . $offset;
         }
         
-        function generate_css($colors, $filename, $typedef = array()) 
+        static function generate_css($colors, $filename, $typedef = array()) 
         {
                 $xs_dir = WP_CONTENT_DIR . '/xsoftware/';
                 if(is_dir($xs_dir) === FALSE)

@@ -83,15 +83,13 @@ class xs_framework
                         return $option;
         }
         
-        static function update_option($name, $values) //FIXME: STRANGE BUG, DOESN'T WORK!!!
+        static function update_option($name, $values)
         {
                 $options = get_option('xs_framework_options', array());
                 if(isset($options[$name])) {
                         $options[$name] = $values;
-                        var_dump($options);
-                        delete_option('xs_framework_options');
                         wp_cache_delete ( 'alloptions', 'options' );
-                        return add_option('xs_framework_options', $options);
+                        return update_option('xs_framework_options', $options);
                 }
                 return FALSE;
         }
