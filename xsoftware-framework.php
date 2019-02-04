@@ -4,7 +4,7 @@ Plugin Name: XSoftware Framework
 Description: Framework for xsoftware wordpress plugins.
 Version: 1.0
 Author: Luca Gasperini
-Author URI: https://xsoftware.eu/
+Author URI: https://xsoftware.it/
 Text Domain: xsoftware_products
 */
 
