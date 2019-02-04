@@ -19,8 +19,6 @@ add_action( 'init', 'xs_framework_init', 0 );
 
 function xs_framework_init() 
 {
-        xs_framework::init_script();
-        
         $options = xs_framework::get_option();
         //take language from browser setting
         $language = xs_framework::language_browser();
@@ -100,11 +98,6 @@ class xs_framework
         static function init_admin_script()
         {
                 wp_enqueue_script('xs_framework_admin_script', plugins_url('js/admin.js', __FILE__));
-        }
-        
-        static function init_script()
-        {
-                wp_enqueue_script('xs_framework_script', plugins_url('js/functions.js', __FILE__));
         }
         
         static function user_role($role, $user_id = NULL)
