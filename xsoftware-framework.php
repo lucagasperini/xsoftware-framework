@@ -30,8 +30,6 @@ function xs_framework_init()
         }
 }
 
-//add_filter('wp_nav_menu_items', 'xs_framework::menu_colors', 10, 2);
-
 include 'html.php';
 include 'languages.php';
 include 'browser.php';
