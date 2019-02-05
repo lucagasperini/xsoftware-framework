@@ -101,5 +101,20 @@ class xs_framework
         {
                 wp_enqueue_script('xs_framework_admin_script', plugins_url('js/admin.js', __FILE__));
         }
+        
+        static function url_image($image)
+        {
+                return plugins_url('img/'.$image, __FILE__);
+        }
+        
+        static function code_name($name)
+        {
+                $offset = $name;
+               
+                $offset = str_replace(' ', '_', $offset);
+                $offset = strtolower($offset);
+                
+                return $offset;
+        }
 } 
 ?>

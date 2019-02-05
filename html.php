@@ -22,16 +22,29 @@ trait html
         static function create_input($settings)
         {
         
-                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'readonly' => '', 'type' => 'text', 'return' => false);
+                $default_settings = array(
+                        'id' => '',
+                        'style' => '',
+                        'class' => '', 
+                        'value' => '', 
+                        'name' => '', 
+                        'onclick' => '',
+                        'readonly' => '', 
+                        'type' => 'text',
+                        'return' => false
+                );
                 $settings += $default_settings;
                 
                 $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
                 $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
                 $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
                 $type =         empty($settings['type'])        ? "" : "type=\"".$settings['type']."\"";
+                $id =           empty($settings['id'])          ? "" : "id=\"".$settings['id']."\"";
+                $style =           empty($settings['style'])       ? "" : "style=\"".$settings['style']."\"";
+                $onclick =      empty($settings['onclick'])     ? "" : "onclick=\"".$settings['onclick']."\"";
                 $readonly =     empty($settings['readonly'])    ? "" : "readonly";
                 
-                $return_string = "<input " . $class . " " . $type . " ". $name . " " . $value . " " . $readonly  . "/>";
+                $return_string = "<input ".$id." ".$class." ".$style." ".$type." ".$name." ".$value." ".$onclick." ".$readonly."/>";
                 
                 if($settings['return'] == false)
                         echo $return_string;
@@ -42,11 +55,18 @@ trait html
         
         static function create_table($settings)
         {
-                $default_settings = array('class' => '', 'headers' => array(), 'data' => array( array() ) );
+                $default_settings = array(
+                        'class' => '', 
+                        'headers' => array(), 
+                        'data' => array()
+                );
                 $settings += $default_settings;
                 
+                if(empty($settings['data']))
+                        return;
+                
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
-                echo "<table ". $class ." ><tr>";
+                echo "<table ". $class ." >";
                 
                 foreach($settings['headers'] as $header)
                         echo "<th>" . $header . "</th>";
@@ -58,7 +78,7 @@ trait html
                         echo "</tr>";
                 }
 
-                echo "</tr></table>";
+                echo "</table>";
 
         }
         
@@ -179,7 +199,7 @@ trait html
                 
                 $name =         empty($settings['name'])        ? "" : " name=\"" . $settings['name'] . "\"";
                 $class =        empty($settings['class'])       ? "" : " class=\"".$settings['class']."\"";
-                $id =           empty($settings['class'])       ? "" : " class=\"".$settings['class']."\"";
+                $id =           empty($settings['id'])       ? "" : " id=\"".$settings['id']."\"";
                 
                 $return_string = "<input type=\"file\" " . $name . $id . $class . ">";
                 
@@ -215,6 +235,91 @@ trait html
                 echo '</h2>';
 
                 return $current;
+        }
+        
+        static function create_image($settings)
+        {
+                $default_settings = array(
+                        'class' => '',
+                        'src' => '',
+                        'alt' => '',
+                        'id' => '',
+                        'width' => '',
+                        'height' => '',
+                        'echo' => FALSE
+                );
+                
+                $settings += $default_settings;
+                
+                $src =        empty($settings['src'])        ? "" : "src=\"".$settings['src']."\"";
+                $alt =         empty($settings['alt'])         ? "" : "alt=\"" . $settings['alt'] . "\"";
+                $width =     empty($settings['width'])     ? "" : "width=\"".$settings['width']."\"";
+                $height =     empty($settings['height'])     ? "" : "height=\"".$settings['height']."\"";
+                $id =           empty($settings['id'])          ? "" : "id=\"".$settings['id']."\"";
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+               
+                
+                $return_string = "<img ".$src." ".$alt." ".$width." ".$height." ".$class." ".$id.">";
+                
+                if($settings['echo'] !== FALSE)
+                        echo $return_string;
+                else
+                        return $return_string;
+                
+        }
+        
+        static function create_container($settings)
+        {
+                $default_settings = array(
+                        'class' => '',
+                        'obj' => array(),
+                        'echo' => FALSE
+                );
+                
+                $settings += $default_settings;
+                
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                
+                $return_string = "<div ".$class.">";
+                
+                foreach($settings['obj'] as $key => $html) {
+                        $return_string .= $html;
+                }
+                
+                $return_string .= "</div>";
+                
+                if($settings['echo'] !== FALSE)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
+        
+        static function create_label($settings)
+        {
+                $default_settings = array(
+                        'class' => '',
+                        'for' => '',
+                        'obj' => array(),
+                        'echo' => FALSE
+                );
+                
+                $settings += $default_settings;
+                
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                $for = empty($settings['for']) ? ""     :  "for=\"".$settings['for']."\"";
+                
+                $return_string = "<label ".$class." ".$for.">";
+                
+                foreach($settings['obj'] as $key => $html) {
+                        $return_string .= $html;
+                }
+                
+                $return_string .= "</label>";
+                
+                if($settings['echo'] !== FALSE)
+                        echo $return_string;
+                else
+                        return $return_string;
         }
 }
 ?>

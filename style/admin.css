@@ -22,3 +22,7 @@ tr:nth-child(even) {
 .xs_text_center {
         text-align: center;
 }
+
+.xs_margin {
+        margin: 16px 0px !important;
+}
