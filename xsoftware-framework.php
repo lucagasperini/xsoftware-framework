@@ -8,6 +8,8 @@ Author URI: https://xsoftware.it/
 Text Domain: xsoftware_products
 */
 
+if(!defined("ABSPATH")) die;
+
 add_action( 'plugins_loaded', 'load_framework', 0 ); //Load it first!
 
 function load_framework()

@@ -1,4 +1,7 @@
 <?php
+
+if(!defined("ABSPATH")) die;
+
 trait html
 {
         static function create_input_checkbox($settings)

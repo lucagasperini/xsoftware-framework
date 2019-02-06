@@ -1,4 +1,7 @@
 <?php
+
+if(!defined("ABSPATH")) die;
+
 trait browser {
         /**
         * This function returns the URL used in the browser.

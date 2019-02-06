@@ -1,5 +1,7 @@
 <?php
 
+if(!defined("ABSPATH")) die;
+
 require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
 trait languages

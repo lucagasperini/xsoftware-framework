@@ -1,5 +1,7 @@
 <?php
 
+if(!defined("ABSPATH")) die;
+
 if (!class_exists('xs_framework_options')) :
 
 class xs_framework_options

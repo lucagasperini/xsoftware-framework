@@ -1,5 +1,7 @@
 <?php
 
+if(!defined("ABSPATH")) die;
+
 trait user
 {
         static function get_user_display_name($query = array())

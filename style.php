@@ -1,5 +1,7 @@
 <?php
 
+if(!defined("ABSPATH")) die;
+
 trait style
 {
         static function generate_css($colors, $filename, $typedef = array()) 
