@@ -9,7 +9,7 @@ trait html
                 $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
                 $name =         empty($settings['name'])        ? "" : "name=\"" . $settings['name'] . "\"";
                 $class =        empty($settings['class'])       ? "" : "class=\"".$settings['class']."\"";
-                $checked =      $settings['value'] != $settings['compare']   ? "" : "checked";
+                $checked =      !$settings['compare']            ? "" : "checked";
                 
                 $return_string = "<input type='checkbox' ".$class." " . $name . " ".$checked." />";
                 
