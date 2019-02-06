@@ -116,5 +116,31 @@ class xs_framework
                 
                 return $offset;
         }
+        static function get_products_name()
+        {
+                $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+                if (mysqli_connect_error()) {
+                        die("Connection to database failed: " . mysqli_connect_error());
+                }
+                if(is_resource($conn)) { 
+                        $conn->query($conn, "SET NAMES 'utf8'"); 
+                        $conn->query($conn, "SET CHARACTER SET 'utf8'"); 
+                } 
+                $offset = array();
+                $sql = "SELECT name, title FROM xs_products WHERE lang='en_GB'"; //FIXME: FORCE LANG EN
+                $result = $conn->query($sql);
+                if (!$result) {
+                        echo "Could not run query: SQL_ERROR -> " . $conn->error . " SQL_QUERY -> " . $sql;
+                        exit;
+                }
+                if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                                $offset[$row['name']] = $row['title'];
+                        }
+                }
+                $result->close();
+                return $offset;
+        }
 } 
 ?>
