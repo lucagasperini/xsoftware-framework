@@ -50,6 +50,21 @@ trait style
                 fwrite($file_style, $css);
                 fclose($file_style);
         }
+        
+        function install_style_pack($style)
+        {
+                $not_empty = FALSE;
+                $options = xs_framework::get_option('style');
+                foreach($style as $class => $values)
+                {
+                        if(!isset($options[$class])) {
+                                $options[$class] = $values;
+                                $not_empty = TRUE;
+                        }
+                }
+                if($not_empty === TRUE)
+                        xs_framework::update_option('style', $style);
+        }
 
 }
 
