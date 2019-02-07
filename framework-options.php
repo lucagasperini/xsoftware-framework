@@ -60,6 +60,7 @@ class xs_framework_options
         function input($input)
         {
                 $current = $this->settings;
+                
                 if(isset($input['add_lang']) && !empty($input['add_lang'])) {
                         $current['available_languages'][$input['add_lang']] = xs_framework::get_lang_property($input['add_lang']);
                         $res = xs_framework::download_language($input['add_lang']);
@@ -70,6 +71,9 @@ class xs_framework_options
                         unset($current['available_languages'][$input['remove_lang']]);
                         xs_framework::remove_language($input['remove_lang']);
                 }
+                
+                if(isset($input['default_language']) && !empty($input['default_language']))
+                        $current['default_language'] = $input['default_language'];
                         
                 if(isset($input['colors']) && !empty($input['colors'])) {
                         $current['colors'] = $input['colors'];
@@ -276,24 +280,38 @@ class xs_framework_options
                 }
                 
                 $lang_list = xs_framework::get_lang_name_list();
-                array_unshift($lang_list, 'Select a language');
                 xs_framework::create_table( array( 
                         'data' => $langs,
                         'headers' => array('Actions', 'Code', 'WP Version', 'Last Update', 'Name', 'Native Name', 'Package', 'ISO')
                 ));
                 
-                $this->settings_field = array( 
+                $options = array( 
                         'name' => 'xs_framework_options[add_lang]', 
+                        'default' => 'Select a language',
                         'data' => $lang_list
                 );
                 
                 add_settings_field(
-                        $this->settings_field['name'], 
+                        $options['name'], 
                         'Add new language:',
                         'xs_framework::create_select',
                         'framework',
                         'section_framework',
-                        $this->settings_field
+                        $options
+                );
+                $options = array( 
+                        'name' => 'xs_framework_options[default_language]', 
+                        'selected' => $this->settings['default_language'],
+                        'data' => xs_framework::get_available_language(),
+                );
+                
+                add_settings_field(
+                        $options['name'],
+                        'Select a default language:',
+                        'xs_framework::create_select',
+                        'framework',
+                        'section_framework',
+                        $options
                 );
         }
 

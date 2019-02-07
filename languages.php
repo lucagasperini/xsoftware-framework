@@ -98,23 +98,28 @@ trait languages
 
                 return $offset;
         }
-
-        static function cookie_language($language)
+        static function set_user_language($language)
         {
                 if($language == NULL || $language == false)  
-                        return NULL;
+                        return FALSE;
                         
-                if(!isset($_COOKIE['xs_framework_user_language'])){
+                if(!isset($_COOKIE['xs_framework_user_language'])) {
+                        $_SESSION['xs_framework_user_language'] = $language; 
                         setcookie('xs_framework_user_language', $language, time()+24*60*60, "/"); //set a cookie for 24 hour
-                        return $language;
-                } else {
-                        return $_COOKIE['xs_framework_user_language'];
                 }
+                
+                return TRUE;
         }
         
         static function get_user_language()
         {
-                return isset($_COOKIE['xs_framework_user_language']) ? $_COOKIE['xs_framework_user_language'] : self::get_option('frontend_language');
+                if(!isset($_COOKIE['xs_framework_user_language'])) {
+                        return isset($_SESSION['xs_framework_user_language']) ? 
+                                $_SESSION['xs_framework_user_language'] :
+                                xs_framework::get_option('default_language');
+                }
+                else
+                        return $_COOKIE['xs_framework_user_language'];
         }
         
                 

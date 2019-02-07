@@ -110,7 +110,6 @@ trait browser {
                 }//search only for the language
         }
         }
-
         return $maxLang;
         }
 }

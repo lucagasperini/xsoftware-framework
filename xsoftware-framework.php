@@ -10,26 +10,6 @@ Text Domain: xsoftware_products
 
 if(!defined("ABSPATH")) die;
 
-add_action( 'plugins_loaded', 'load_framework', 0 ); //Load it first!
-
-function load_framework()
-{
-        include 'framework-options.php';
-}
-
-add_action( 'init', 'xs_framework_init', 0 );
-
-function xs_framework_init() 
-{
-        $options = xs_framework::get_option();
-        //take language from browser setting
-        $language = xs_framework::language_browser();
-                
-        if(isset($options['available_languages'][$language])) {
-                $language = xs_framework::cookie_language($language);
-        }
-}
-
 include 'html.php';
 include 'languages.php';
 include 'browser.php';
@@ -51,6 +31,7 @@ class xs_framework
                         xs_framework::download_language('en_GB');
                         $default = array(
                                 'available_languages' => array('en_GB' => xs_framework::get_lang_property('en_GB')),
+                                'default_language' => 'en_GB',
                                 'style' => array( 
                                         '.xs_primary' => array(
                                                 'default' => array( 'text' => 'primary' , 'bg' => '', 'bord' => ''), 
@@ -145,4 +126,18 @@ class xs_framework
                 return $offset;
         }
 } 
+
+include 'framework-options.php';
+
+add_action( 'plugins_loaded', 'xs_framework_init', 0 );
+
+function xs_framework_init() 
+{
+        session_start();
+        $options = xs_framework::get_option();
+        //take language from browser setting
+        $language = xs_framework::language_browser();
+
+        $language = xs_framework::set_user_language($language);
+}
 ?>
