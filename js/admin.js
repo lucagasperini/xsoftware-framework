@@ -1,5 +1,9 @@
-function confirm_box() {
-        return confirm("Are you sure?");
+function confirm_box(text) {
+        if(text) {
+                return confirm(text);
+        } else {
+                return confirm("Are you sure?");
+        }
 } 
  
 var media_uploader = null;
