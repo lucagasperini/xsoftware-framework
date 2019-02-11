@@ -324,5 +324,43 @@ trait html
                 else
                         return $return_string;
         }
+        
+        static function create_select_media_gallery($settings)
+        {
+                $default_settings = array(
+                        'id' => '',
+                        'class' => '',
+                        'src' => '',
+                        'alt' => '',
+                        'width' => '',
+                        'height' => '',
+                        'echo' => FALSE
+                );
+                
+                $settings += $default_settings;
+                
+                $src = $settings['src'];
+                $id_input = $settings['id'].'[xs_id_input]';
+                $id_image = $settings['id'];
+                
+                $alt =         empty($settings['alt'])         ? "" : "alt=\"" . $settings['alt'] . "\"";
+                $width =     empty($settings['width'])     ? "" : "width=\"".$settings['width']."\"";
+                $height =     empty($settings['height'])     ? "" : "height=\"".$settings['height']."\"";
+                $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                
+
+                
+                $onclick = 'onclick="wp_media_gallery_url(\''.$id_input.'\',\''.$id_image.'\')"';
+                
+                $return_string = '<label '.$class.' for="'.$id_input.'">';
+                $return_string .= '<input id="'.$id_input.'" style="display:none;" type="text" name="'.$id_image.'" value="'.$src.'" '.$onclick.'>';
+                $return_string .= '<img src="'.$src.'" '.$alt.' id="'.$id_image.'" '.$width.' '.$height.'>';
+                $return_string .= '</label>';
+               
+                if($settings['echo'] !== FALSE)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
 }
 ?>
