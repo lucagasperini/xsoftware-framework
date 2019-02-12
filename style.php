@@ -51,7 +51,7 @@ trait style
                 fclose($file_style);
         }
         
-        function install_style_pack($style)
+        static function install_style_pack($style)
         {
                 $not_empty = FALSE;
                 $options = xs_framework::get_option('style');
