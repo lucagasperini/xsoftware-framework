@@ -99,21 +99,6 @@ class xs_framework
                 
                 return $offset;
         }
-        static function get_products_name()
-        {
-                $offset = array();
-                $posts_array = get_posts([
-                        'post_type' => 'xs_product',
-                        'posts_per_page'   => 10,
-                ]);
-                
-                foreach($posts_array as $post)
-                {
-                        $offset[$post->ID] = $post->post_title;
-                }
-
-                return $offset;
-        }
 } 
 
 include 'framework-options.php';
