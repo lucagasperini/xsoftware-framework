@@ -179,8 +179,16 @@ trait html
         
         static function create_link($settings)
         {
-                $default_settings = array( 'href' => '', 'class' => '', 'text' => '', 'title' => '', 'type' => '', 'hreflang' => '', 'download' => false, 
-'return' => false);
+                $default_settings = array( 
+                        'href' => '', 
+                        'class' => '', 
+                        'text' => '', 
+                        'title' => '', 
+                        'type' => '', 
+                        'hreflang' => '', 
+                        'download' => FALSE, 
+                        'echo' => FALSE
+                );
                 $settings += $default_settings;
                 
                 $href =         empty($settings['href'])         ? "" : "href=\"" . $settings['href'] . "\"";
@@ -193,7 +201,7 @@ trait html
                 
                 $return_string = "<a ". $href ." ". $class . " ". $title . " " . $type . " " . $hreflang . " " . $download . ">" . $text . "</a>";
                 
-                if($settings['return'] == false)
+                if($settings['echo'] !== FALSE)
                         echo $return_string;
                 else
                         return $return_string;
