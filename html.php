@@ -6,7 +6,7 @@ trait html
 {
         static function create_input_checkbox($settings)
         {
-                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'compare' => '', 'echo' => FALSE);
+                $default_settings = array('class' => '', 'value' => 1, 'name' => '', 'compare' => '', 'echo' => FALSE);
                 $settings += $default_settings;
                 
                 $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
