@@ -140,50 +140,41 @@ class xs_framework_options
                         $data[$name][] = $name;
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['default']['text'],
-                                'name' => 'xs_framework_options[style]['.$name.'][default][text]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][default][text]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['hover']['text'],
-                                'name' => 'xs_framework_options[style]['.$name.'][hover][text]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][text]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['focus']['text'],
-                                'name' => 'xs_framework_options[style]['.$name.'][focus][text]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][text]'
                         ));
                         
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['default']['bg'],
-                                'name' => 'xs_framework_options[style]['.$name.'][default][bg]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][default][bg]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['hover']['bg'],
-                                'name' => 'xs_framework_options[style]['.$name.'][hover][bg]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][bg]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['focus']['bg'],
-                                'name' => 'xs_framework_options[style]['.$name.'][focus][bg]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][bg]'
                         ));
                         
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['default']['bord'],
-                                'name' => 'xs_framework_options[style]['.$name.'][default][bord]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][default][bord]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['hover']['bord'],
-                                'name' => 'xs_framework_options[style]['.$name.'][hover][bord]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][bord]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
                                 'value' => $prop['focus']['bord'],
-                                'name' => 'xs_framework_options[style]['.$name.'][focus][bord]',
-                                'return' => TRUE
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][bord]'
                         ));
                 }
                 $headers = array(
@@ -205,7 +196,8 @@ class xs_framework_options
                 $settings = array( 
                         'type' => 'color',
                         'name' => 'xs_framework_options[colors][primary]', 
-                        'value' => $colors['primary']
+                        'value' => $colors['primary'],
+                        'echo' => TRUE
                 );
                 
                 add_settings_field(
@@ -220,7 +212,8 @@ class xs_framework_options
                 $settings = array( 
                         'type' => 'color',
                         'name' => 'xs_framework_options[colors][secondary]', 
-                        'value' => $colors['secondary']
+                        'value' => $colors['secondary'],
+                        'echo' => TRUE
                 );
                 
                 add_settings_field(
@@ -235,7 +228,8 @@ class xs_framework_options
                 $settings = array( 
                         'type' => 'color',
                         'name' => 'xs_framework_options[colors][background]', 
-                        'value' => $colors['background']
+                        'value' => $colors['background'],
+                        'echo' => TRUE
                 );
                 
                 add_settings_field(
@@ -250,7 +244,8 @@ class xs_framework_options
                 $settings = array( 
                         'type' => 'color',
                         'name' => 'xs_framework_options[colors][text]', 
-                        'value' => $colors['text']
+                        'value' => $colors['text'],
+                        'echo' => TRUE
                 );
                 
                 add_settings_field(
