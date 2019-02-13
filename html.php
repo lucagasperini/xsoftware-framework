@@ -6,7 +6,7 @@ trait html
 {
         static function create_input_checkbox($settings)
         {
-                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'compare' => '', 'return' => false);
+                $default_settings = array('class' => '', 'value' => '', 'name' => '', 'compare' => '', 'echo' => FALSE);
                 $settings += $default_settings;
                 
                 $value =        empty($settings['value'])       ? "" : "value=\"".$settings['value']."\"";
@@ -16,7 +16,7 @@ trait html
                 
                 $return_string = "<input type='checkbox' ".$class." " . $name . " ".$checked." />";
                 
-                if($settings['return'] == false)
+                if($settings['echo'] !== FALSE)
                         echo $return_string;
                 else
                         return $return_string;
