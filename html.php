@@ -70,6 +70,7 @@ trait html
                         'headers' => array(), 
                         'data' => array()
                 );
+                
                 $settings += $default_settings;
                 
                 if(empty($settings['data']))
@@ -94,7 +95,15 @@ trait html
         
         static function create_button($settings)
         {
-                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'onclick' => '', 'return' => false);
+                $default_settings = array( 
+                        'name' => '',
+                        'class' => '', 
+                        'value' => '', 
+                        'text' => '', 
+                        'onclick' => '', 
+                        'echo' => FALSE
+                );
+                
                 $settings += $default_settings;
                 
                 $text = $settings['text'];
@@ -105,7 +114,7 @@ trait html
                 
                 $return_string = "<button ".$class." ". $name . " " . $value . " " . $onclick . ">".$text."</button>";
                 
-                if($settings['return'] == false)
+                if($settings['echo'] !== FALSE)
                         echo $return_string;
                 else
                         return $return_string;
@@ -113,7 +122,13 @@ trait html
         
         static function create_textarea($settings)
         {
-                $default_settings = array( 'name' => '', 'class' => '', 'value' => '', 'text' => '', 'return' => false);
+                $default_settings = array( 
+                        'name' => '', 
+                        'class' => '', 
+                        'value' => '', 
+                        'text' => '', 
+                        'return' => false
+                );
                 $settings += $default_settings;
                 
                 $text = $settings['text'];
@@ -209,10 +224,11 @@ trait html
         static function create_upload_file($settings)
         {
                 $default_settings = array( 
-                'name' => '', 
-                'class' => '',
-                'id' => '',
-                'return' => false);
+                        'name' => '', 
+                        'class' => '',
+                        'id' => '',
+                        'return' => false
+                );
                 $settings += $default_settings;
                 
                 $name =         empty($settings['name'])        ? "" : " name=\"" . $settings['name'] . "\"";

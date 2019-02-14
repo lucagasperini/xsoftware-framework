@@ -267,8 +267,7 @@ class xs_framework_options
                                         'name' => 'xs_framework_options[remove_lang]', 
                                         'class' => 'button-primary', 
                                         'value' => $code, 
-                                        'text' => 'Remove', 
-                                        'return' => true
+                                        'text' => 'Remove'
                                 ));
                         array_unshift($langs[$code], $delete_button);
                         unset($langs[$code]['strings']);
