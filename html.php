@@ -222,28 +222,7 @@ trait html
                 else
                         return $return_string;
         }
-        static function create_upload_file($settings)
-        {
-                $default_settings = array( 
-                        'name' => '', 
-                        'class' => '',
-                        'id' => '',
-                        'return' => false
-                );
-                $settings += $default_settings;
-                
-                $name =         empty($settings['name'])        ? "" : " name=\"" . $settings['name'] . "\"";
-                $class =        empty($settings['class'])       ? "" : " class=\"".$settings['class']."\"";
-                $id =           empty($settings['id'])       ? "" : " id=\"".$settings['id']."\"";
-                
-                $return_string = "<input type=\"file\" " . $name . $id . $class . ">";
-                
-                if($settings['return'] == false)
-                        echo $return_string;
-                else
-                        return $return_string;
-        }
-        
+
         static function create_tabs($settings)
         {
                 $default_settings = array(
@@ -261,7 +240,7 @@ trait html
                 $tabs = $settings['tabs'];
                 
                 echo '<h2 class="nav-tab-wrapper">';
-                // configurate the url with your personal_url and add the class for the activate tab
+                
                 foreach( $tabs as $code => $title ){
                         $class = ( $code == $current ) ? ' nav-tab-active' : '';
                         $url = xs_framework::append_query_url($settings['href'], array($name => $code));
