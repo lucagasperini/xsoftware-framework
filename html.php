@@ -146,14 +146,15 @@ trait html
         
         static function create_select($settings)
         {
-                $default_settings = array( 'name' => '', 
-                                        'class' => '', 
-                                        'data' => array(), 
-                                        'selected' => '', 
-                                        'default' => '',
-                                        'compare_key' => true,
-                                        'return' => false
-                                        );
+                $default_settings = array( 
+                        'name' => '', 
+                        'class' => '', 
+                        'data' => array(), 
+                        'selected' => '', 
+                        'default' => '',
+                        'compare_key' => TRUE,
+                        'echo' => FALSE
+                );
                                         
                 $settings += $default_settings;
                 $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
@@ -186,7 +187,7 @@ trait html
                 $return_string .= $buffer;
                 $return_string .= "</select>";
                 
-                if($settings['return'] == false)
+                if($settings['echo'] !== FALSE)
                         echo $return_string;
                 else
                         return $return_string;

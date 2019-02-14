@@ -282,7 +282,8 @@ class xs_framework_options
                 $options = array( 
                         'name' => 'xs_framework_options[add_lang]', 
                         'default' => 'Select a language',
-                        'data' => $lang_list
+                        'data' => $lang_list,
+                        'echo' => TRUE
                 );
                 
                 add_settings_field(
@@ -297,6 +298,7 @@ class xs_framework_options
                         'name' => 'xs_framework_options[default_language]', 
                         'selected' => $this->settings['default_language'],
                         'data' => xs_framework::get_available_language(),
+                        'echo' => TRUE
                 );
                 
                 add_settings_field(
