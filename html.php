@@ -127,7 +127,7 @@ trait html
                         'class' => '', 
                         'value' => '', 
                         'text' => '', 
-                        'return' => false
+                        'echo' => FALSE
                 );
                 $settings += $default_settings;
                 
@@ -138,7 +138,7 @@ trait html
                 
                 $return_string = "<textarea ".$class." ". $name . " " . $value . ">".$text."</textarea>";
                 
-                if($settings['return'] == false)
+                if($settings['echo'] !== FALSE)
                         echo $return_string;
                 else
                         return $return_string;
