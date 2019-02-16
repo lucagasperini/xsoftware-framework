@@ -1,17 +1,17 @@
-td {
+.xs_admin_table > tbody > tr > td {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
 }
 
-th {
+.xs_admin_table  > tbody > tr > th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
 }
 
 
-tr:nth-child(even) {
+.xs_admin_table > tbody > tr:nth-child(even) {
         background-color: #dddddd;
 }
 

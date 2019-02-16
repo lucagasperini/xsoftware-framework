@@ -189,7 +189,11 @@ class xs_framework_options
                         'Border Hover',
                         'Border Focus'
                 );
-                xs_framework::create_table(array('headers' => $headers, 'data' => $data));
+                xs_framework::create_table(array(
+                        'class' => 'xs_admin_table',
+                        'headers' => $headers, 
+                        'data' => $data
+                ));
                 
                 $colors = $this->settings['colors'];
 
@@ -275,6 +279,7 @@ class xs_framework_options
                 
                 $lang_list = xs_framework::get_lang_name_list();
                 xs_framework::create_table( array( 
+                        'class' => 'xs_admin_table',
                         'data' => $langs,
                         'headers' => array('Actions', 'Code', 'WP Version', 'Last Update', 'Name', 'Native Name', 'Package', 'ISO')
                 ));
