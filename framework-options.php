@@ -134,47 +134,47 @@ class xs_framework_options
         
         function show_style_colors()
         {
-                $colors = $this->settings['style'];
+                $style = $this->settings['style'];
                 
-                foreach($colors as $name => $prop) {
+                foreach($style as $name => $prop) {
                         $data[$name][] = $name;
                         $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['default']['text'],
-                                'name' => 'xs_framework_options[style]['.$name.'][default][text]'
+                                'value' => $prop[0]['color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][0][color]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['hover']['text'],
-                                'name' => 'xs_framework_options[style]['.$name.'][hover][text]'
+                                'value' => $prop['hover']['color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][color]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['focus']['text'],
-                                'name' => 'xs_framework_options[style]['.$name.'][focus][text]'
-                        ));
-                        
-                        $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['default']['bg'],
-                                'name' => 'xs_framework_options[style]['.$name.'][default][bg]'
-                        ));
-                        $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['hover']['bg'],
-                                'name' => 'xs_framework_options[style]['.$name.'][hover][bg]'
-                        ));
-                        $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['focus']['bg'],
-                                'name' => 'xs_framework_options[style]['.$name.'][focus][bg]'
+                                'value' => $prop['focus']['color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][color]'
                         ));
                         
                         $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['default']['bord'],
-                                'name' => 'xs_framework_options[style]['.$name.'][default][bord]'
+                                'value' => $prop[0]['background-color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][0][background-color]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['hover']['bord'],
-                                'name' => 'xs_framework_options[style]['.$name.'][hover][bord]'
+                                'value' => $prop['hover']['background-color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][background-color]'
                         ));
                         $data[$name][] = xs_framework::create_input( array(
-                                'value' => $prop['focus']['bord'],
-                                'name' => 'xs_framework_options[style]['.$name.'][focus][bord]'
+                                'value' => $prop['focus']['background-color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][background-color]'
+                        ));
+                        
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop[0]['border-color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][0][border-color]'
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['hover']['border-color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][hover][border-color]'
+                        ));
+                        $data[$name][] = xs_framework::create_input( array(
+                                'value' => $prop['focus']['border-color'],
+                                'name' => 'xs_framework_options[style]['.$name.'][focus][border-color]'
                         ));
                 }
                 $headers = array(

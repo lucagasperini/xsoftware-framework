@@ -34,19 +34,19 @@ class xs_framework
                                 'default_language' => 'en_GB',
                                 'style' => array( 
                                         '.xs_primary' => array(
-                                                'default' => array( 'text' => 'primary' , 'bg' => '', 'bord' => ''), 
-                                                'hover' => array( 'text' => '' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '' , 'bg' => '', 'bord' => ''),
+                                                0 => array( 'color' => 'primary' , 'background-color' => '', 'border-color' => ''), 
+                                                'hover' => array( 'color' => '' , 'background-color' => '', 'border-color' => ''), 
+                                                'focus' => array( 'color' => '' , 'background-color' => '', 'border-color' => ''),
                                         ),
                                         '.xs_secondary' => array(
-                                                'default' => array( 'text' => 'secondary' , 'bg' => '', 'bord' => ''), 
-                                                'hover' => array( 'text' => '' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '' , 'bg' => '', 'bord' => ''),
+                                                0 => array( 'color' => 'secondary' , 'background-color' => '', 'border-color' => ''), 
+                                                'hover' => array( 'color' => '' , 'background-color' => '', 'border-color' => ''), 
+                                                'focus' => array( 'color' => '' , 'background-color' => '', 'border-color' => ''),
                                         ),
                                         '.xs_body' => array(
-                                                'default' => array( 'text' => 'text' , 'bg' => 'background', 'bord' => ''), 
-                                                'hover' => array( 'text' => '' , 'bg' => '', 'bord' => ''), 
-                                                'focus' => array( 'text' => '' , 'bg' => '', 'bord' => ''),
+                                                0 => array( 'color' => 'text' , 'background-color' => 'background', 'border-color' => ''), 
+                                                'hover' => array( 'color' => '' , 'background-color' => '', 'border-color' => ''), 
+                                                'focus' => array( 'color' => '' , 'background-color' => '', 'border-color' => ''),
                                         )
                                 ),
                                 'colors' => array(
