@@ -33,8 +33,13 @@ function wp_media_gallery_url(id_input, id_image)
         
         
 }
+function dump_s(obj) 
+{
+        alert(obj);
+}
 
-function dump(obj) {
+function dump(obj) 
+{
     var out = '';
     for (var i in obj) {
         out += i + ": " + obj[i] + "\n";
