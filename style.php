@@ -8,10 +8,10 @@ trait style
         {
                 $xs_dir = WP_CONTENT_DIR . '/xsoftware/';
                 if(is_dir($xs_dir) === FALSE)
-                        mkdir($xs_dir, 0774);
+                        mkdir($xs_dir, 0755);
                 $colors_dir = $xs_dir . 'style/';
                 if(is_dir($colors_dir) === FALSE)
-                        mkdir($colors_dir, 0774);
+                        mkdir($colors_dir, 0755);
                 
                 $css = '';
                 
