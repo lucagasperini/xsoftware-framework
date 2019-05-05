@@ -107,7 +107,7 @@ add_action( 'plugins_loaded', 'xs_framework_init', 0 );
 
 function xs_framework_init() 
 {
-        session_start();
+        //session_start(); CANNOT LOAD WORDPRESS IF ENABLED
         $options = xs_framework::get_option();
         //take language from browser setting
         $language = xs_framework::language_browser();
