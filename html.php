@@ -63,7 +63,7 @@ trait html
         }
         
         
-        static function create_table($settings)
+        static function create_table($settings) //FIXME: ECHO => TRUE ?
         {
                 $default_settings = array(
                         'class' => '', 

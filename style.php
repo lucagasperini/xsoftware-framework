@@ -74,6 +74,11 @@ trait style
                 if($not_empty === TRUE)
                         xs_framework::update_option('style', $style);
         }
+        
+        static function enqueue_fontawesome()
+        {
+                wp_enqueue_style('xs_framework_fontawesome_style', plugins_url('style/fontawesome/css/all.min.css', __FILE__));
+        } 
 
 }
 
