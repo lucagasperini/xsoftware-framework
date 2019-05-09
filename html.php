@@ -131,7 +131,7 @@ trait html
                 );
                 $settings += $default_settings;
                 
-                $text = $settings['text'];
+                $text = empty($settings['text']) ? "" : $settings['text'];
                 $value = empty($settings['value']) ? "" : "value=\"".$settings['value']."\"";
                 $name = empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
