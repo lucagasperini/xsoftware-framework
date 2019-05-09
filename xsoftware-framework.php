@@ -16,6 +16,8 @@ include 'browser.php';
 include 'style.php';
 include 'user.php';
 
+define('XS_CONTENT_DIR', WP_CONTENT_DIR.'/xsoftware/');
+
 class xs_framework
 {
         use html;
