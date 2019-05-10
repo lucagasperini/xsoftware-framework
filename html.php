@@ -239,10 +239,13 @@ trait html
                 $current = isset($_GET[$name]) ? $_GET[$name] : $home;
                 $tabs = $settings['tabs'];
                 
+                if($current === '0')
+                        $current = 0;
+                
                 echo '<h2 class="nav-tab-wrapper">';
                 
                 foreach( $tabs as $code => $title ){
-                        $class = ( $code == $current ) ? ' nav-tab-active' : '';
+                        $class = ( $code === $current ) ? ' nav-tab-active' : '';
                         $url = xs_framework::append_query_url($settings['href'], array($name => $code));
                         echo '<a class="nav-tab'.$class.'" href="'.$url.'">'.$title.'</a>';
                 }
