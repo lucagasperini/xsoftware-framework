@@ -101,6 +101,31 @@ class xs_framework
                 
                 return $offset;
         }
+        
+        static function directory_list($dir)
+        {
+                $offset = array();
+                
+                if ($handle = opendir($dir)) {
+                        while (false !== ($entry = readdir($handle))) {
+                                if($entry !== '.' && $entry !== '..')
+                                        $offset[] = $entry;
+                        }
+                        closedir($handle);
+                }
+                
+                return $offset;
+        }
+        
+        static function read_xml($file_xml)
+        {
+                $file = fopen($file_xml, "r") or die("Unable to open file!");
+                $xml = fread($file,filesize($file_xml));
+                fclose($file);
+              
+                $offset = simplexml_load_string($xml) or die("Error: Cannot create object");
+                return $offset;
+        }
 } 
 
 include 'framework-options.php';
