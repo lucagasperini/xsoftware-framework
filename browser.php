@@ -13,8 +13,6 @@ trait browser {
                 if(!isset($_SERVER['HTTP_HOST']) || !isset($_SERVER['REQUEST_URI']))
                         return false;
                 
-                //$options = uls_get_options();
-                
                 if(isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"]=="on")
                         $url = "https://";
                 else

@@ -126,6 +126,12 @@ class xs_framework
                 $offset = simplexml_load_string($xml) or die("Error: Cannot create object");
                 return $offset;
         }
+        
+        static function get_content_file_url($file)
+        {
+                $url = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $file );
+                return $url;
+        }
 } 
 
 include 'framework-options.php';
