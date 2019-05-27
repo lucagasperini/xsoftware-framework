@@ -392,11 +392,11 @@ trait html
                 $data = array();
                 
                 xs_framework::create_button([
-                                'class' => 'button-primary xs_margin',
-                                'text' => $settings['btn_add_text'], 
-                                'name' => $settings['name'].'[add]',
-                                'echo' => TRUE
-                        ]);
+                        'class' => 'button-primary xs_margin',
+                        'text' => $settings['btn_add_text'], 
+                        'name' => $settings['name'].'[add]',
+                        'echo' => TRUE
+                ]);
                         
                 if(empty($settings['data']))
                         return;
