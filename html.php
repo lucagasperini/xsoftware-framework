@@ -381,19 +381,25 @@ trait html
                 $default_settings = array(
                         'id' => 'xs_obj_id',
                         'name' => 'xs_obj_name',
-                        'data' => array()
+                        'data' => array(),
+                        'btn_add_text' => 'Add new item',
+                        'btn_remove_text' => 'Remove'
                 );
                 
                 $settings += $default_settings;
+                
                 
                 $data = array();
                 
                 xs_framework::create_button([
                                 'class' => 'button-primary xs_margin',
-                                'text' => 'Add new category', 
+                                'text' => $settings['btn_add_text'], 
                                 'name' => $settings['name'].'[add]',
                                 'echo' => TRUE
                         ]);
+                        
+                if(empty($settings['data']))
+                        return;
                 
                 foreach($settings['data'] as $key => $prop) {
                         $img_input = xs_framework::create_input([
@@ -436,7 +442,7 @@ trait html
                         ]);
                         $data[$key]['delete'] = xs_framework::create_button([
                                 'class' => 'button-primary',
-                                'text' => 'Remove',
+                                'text' => $settings['btn_remove_text'],
                                 'onclick' => 'return confirm_box()',
                                 'value' => $key, 
                                 'name' => $settings['name'].'[remove]',
