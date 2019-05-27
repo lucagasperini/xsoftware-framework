@@ -117,7 +117,7 @@ class xs_framework
                 return $offset;
         }
         
-        static function read_xml($file_xml)
+        static function read_xml_file($file_xml)
         {
                 $file = fopen($file_xml, "r") or die("Unable to open file!");
                 $xml = fread($file,filesize($file_xml));
@@ -126,6 +126,13 @@ class xs_framework
                 $offset = simplexml_load_string($xml) or die("Error: Cannot create object");
                 return $offset;
         }
+        
+        static function read_xml($xml)
+        {
+                $offset = simplexml_load_string($xml) or die("Error: Cannot create object");
+                return $offset;
+        }
+        
         
         static function get_content_file_url($file)
         {

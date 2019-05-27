@@ -26,3 +26,12 @@
 .xs_margin {
         margin: 16px 0px !important;
 }
+
+
+.xs_framework_obj_list_container > *{
+        width:100%;
+}
+.xs_framework_obj_list_table {
+        width: 100%;
+        
+}
