@@ -73,6 +73,8 @@ class xs_framework
         static function register_plugin($id, $option, $settings = array())
         {
                 $framework_option = get_option('xs_framework_options', array());
+                if(isset($framework_option['plugins'][$id]))
+                        return TRUE;
                 $framework_option['plugins'][$id]['option'] = $option;
                 $framework_option['plugins'][$id]['settings'] = $settings;
                 wp_cache_delete ( 'alloptions','options' );
