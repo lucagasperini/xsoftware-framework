@@ -12,17 +12,17 @@ trait browser {
         {
                 if(!isset($_SERVER['HTTP_HOST']) || !isset($_SERVER['REQUEST_URI']))
                         return false;
-                
+
                 if(isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"]=="on")
                         $url = "https://";
                 else
                         $url = "http://";
-                        
+
                 $url .= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-                
+
                 return $url;
         }
-        
+
         static function append_query_url($url, $query)
         {
                 $offset = $url;
@@ -30,13 +30,13 @@ trait browser {
                 {
                         $offset .= '?';
                 }
-                
+
                 foreach($query as $key => $value)
                         $offset .= '&' . $key . '=' . $value;
-                
+
                 return $offset;
         }
-        
+
         /**
         * This function retrieves the user language from the browser. It reads the headers sent by the browser about language preferences.
         *
@@ -48,8 +48,8 @@ trait browser {
         }
         //split the header languages
         $browserLanguages = explode(',', $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
-        
-        
+
+
 
         //parse each language
         $parsedLanguages = array();
@@ -73,8 +73,11 @@ trait browser {
         }
         }
         //get the languages activated in the site
-        $languages = xs_framework::get_available_language(array('language' => TRUE, 'english_name' => FALSE));
-        
+        $languages = xs_framework::get_available_language([
+                'language' => TRUE,
+                'english_name' => FALSE
+        ]);
+
         //validate the languages
         $max = 0.0;
         $maxLang = false;
