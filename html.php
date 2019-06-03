@@ -4,6 +4,38 @@ if(!defined("ABSPATH")) die;
 
 trait html
 {
+        static function create_input_number($settings)
+        {
+                $default_settings = array(
+                        'class' => '',
+                        'value' => 1,
+                        'name' => '',
+                        'id' => '',
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                        'echo' => FALSE
+                );
+
+                $settings += $default_settings;
+
+                $value = empty($settings['value']) ? "" : "value=\"".$settings['value']."\"";
+                $name =  empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
+                $class = empty($settings['class']) ? "" : "class=\"".$settings['class']."\"";
+                $id = empty($settings['id']) ? "" : "id=\"".$settings['id']."\"";
+                $min = empty($settings['min']) ? "" : "min=\"".$settings['min']."\"";
+                $max = empty($settings['max']) ? "" : "max=\"".$settings['max']."\"";
+                $step = empty($settings['step']) ? "" : "step=\"".$settings['step']."\"";
+
+                $return_string = "<input type='number' ".
+                $value." ".$class." ".$name." ".$id." ".$value." ".$min." ".$max." ".$step."/>";
+
+                if($settings['echo'] !== FALSE)
+                        echo $return_string;
+                else
+                        return $return_string;
+        }
+
         static function create_input_checkbox($settings)
         {
                 $default_settings = array(
@@ -290,6 +322,7 @@ trait html
         static function create_container($settings)
         {
                 $default_settings = array(
+                        'style' => '',
                         'class' => '',
                         'obj' => array(),
                         'echo' => FALSE
@@ -298,8 +331,9 @@ trait html
                 $settings += $default_settings;
 
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
+                $style = empty($settings['style']) ? "" :  "style=\"".$settings['style']."\"";
 
-                $return_string = "<div ".$class.">";
+                $return_string = "<div ".$class." ".$style.">";
 
                 foreach($settings['obj'] as $key => $html) {
                         $return_string .= $html;

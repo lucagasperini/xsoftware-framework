@@ -15,6 +15,7 @@ include 'languages.php';
 include 'browser.php';
 include 'style.php';
 include 'user.php';
+include 'currency.php';
 
 define('XS_CONTENT_DIR', WP_CONTENT_DIR.'/xsoftware/');
 
@@ -25,6 +26,7 @@ class xs_framework
         use browser;
         use style;
         use user;
+        use currency;
 
         static function get_option($selected = NULL)
         {
@@ -155,9 +157,29 @@ class xs_framework
                 $url = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $file );
                 return $url;
         }
+
+        static function get_wp_pages_link()
+        {
+                $pages = get_pages();
+                $offset = array();
+                foreach ( $pages as $page ) {
+                        $offset[get_page_link( $page->ID )] = $page->post_title;
+                }
+                return $offset;
+        }
 }
 
 include 'framework-options.php';
+
+add_action( 'init', 'xs_framework_session_init', 0 );
+
+function xs_framework_session_init()
+{
+        if( !session_id() )
+        {
+                session_start();
+        }
+}
 
 add_action( 'plugins_loaded', 'xs_framework_init', 0 );
 
