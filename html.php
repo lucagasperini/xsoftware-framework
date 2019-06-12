@@ -11,7 +11,7 @@ trait html
                         'value' => 1,
                         'name' => '',
                         'id' => '',
-                        'min' => 0,
+                        'min' => '0',
                         'max' => 100,
                         'step' => 1,
                         'echo' => FALSE
@@ -23,7 +23,7 @@ trait html
                 $name =  empty($settings['name']) ? "" : "name=\"" . $settings['name'] . "\"";
                 $class = empty($settings['class']) ? "" : "class=\"".$settings['class']."\"";
                 $id = empty($settings['id']) ? "" : "id=\"".$settings['id']."\"";
-                $min = empty($settings['min']) ? "" : "min=\"".$settings['min']."\"";
+                $min = empty($settings['min']) ? "min=\"0\"" : "min=\"".$settings['min']."\"";
                 $max = empty($settings['max']) ? "" : "max=\"".$settings['max']."\"";
                 $step = empty($settings['step']) ? "" : "step=\"".$settings['step']."\"";
 
