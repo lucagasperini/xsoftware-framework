@@ -97,12 +97,13 @@ trait html
         }
 
 
-        static function create_table($settings) //FIXME: ECHO => TRUE ?
+        static function create_table($settings)
         {
                 $default_settings = array(
                         'class' => '',
                         'headers' => array(),
-                        'data' => array()
+                        'data' => array(),
+                        'echo' => TRUE
                 );
 
                 $settings += $default_settings;
@@ -111,19 +112,24 @@ trait html
                         return;
 
                 $class = empty($settings['class']) ? "" :  "class=\"".$settings['class']."\"";
-                echo "<table ". $class ." >";
+                $return_string = "<table ". $class ." >";
 
                 foreach($settings['headers'] as $header)
-                        echo "<th>" . $header . "</th>";
+                        $return_string .= "<th>" . $header . "</th>";
 
                 foreach($settings['data'] as $row) {
-                        echo '<tr>';
+                        $return_string .= '<tr>';
                         foreach($row as $element)
-                                echo "<td>".$element."</td>";
-                        echo "</tr>";
+                                $return_string .= "<td>".$element."</td>";
+                        $return_string .= "</tr>";
                 }
 
-                echo "</table>";
+                $return_string .= "</table>";
+
+                if($settings['echo'] !== FALSE)
+                        echo $return_string;
+                else
+                        return $return_string;
 
         }
 

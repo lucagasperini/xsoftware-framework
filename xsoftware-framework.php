@@ -10,7 +10,10 @@ Text Domain: xsoftware_products
 
 if(!defined("ABSPATH")) die;
 
+if (!class_exists("xs_framework")) :
+
 include 'html.php';
+include 'html-utils.php';
 include 'languages.php';
 include 'browser.php';
 include 'style.php';
@@ -22,6 +25,7 @@ define('XS_CONTENT_DIR', WP_CONTENT_DIR.'/xsoftware/');
 class xs_framework
 {
         use html;
+        use html_utils;
         use languages;
         use browser;
         use style;
@@ -169,6 +173,8 @@ class xs_framework
         }
 }
 
+endif;
+
 include 'framework-options.php';
 
 add_action( 'init', 'xs_framework_session_init', 0 );
@@ -192,4 +198,5 @@ function xs_framework_init()
 
         $language = xs_framework::set_user_language($language);
 }
+
 ?>
