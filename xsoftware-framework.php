@@ -34,7 +34,6 @@ class xs_framework
 
         static function get_option($selected = NULL)
         {
-                //delete_option('xs_framework_options');
                 $option = get_option('xs_framework_options', array());
                 if(empty($option)) {
                         xs_framework::download_language('en_GB');
