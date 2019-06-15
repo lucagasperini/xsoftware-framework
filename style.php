@@ -4,7 +4,7 @@ if(!defined("ABSPATH")) die;
 
 trait style
 {
-        static function generate_css($style, $filename, $typedef = array()) 
+        static function generate_css($style, $filename, $typedef = array())
         {
                 $xs_dir = WP_CONTENT_DIR . '/xsoftware/';
                 if(is_dir($xs_dir) === FALSE)
@@ -12,19 +12,19 @@ trait style
                 $colors_dir = $xs_dir . 'style/';
                 if(is_dir($colors_dir) === FALSE)
                         mkdir($colors_dir, 0755);
-                
+
                 $css = '';
-                
+
                 foreach($style as $class => $values) {
                         foreach($values as $selector => $prop) {
                                 $not_empty = FALSE;
                                 $class_text = '';
-                                
+
                                 if(empty($selector) || $selector == 'default')
                                         $class_text .= $class . '{';
                                 else
                                         $class_text .= $class . ':' . $selector . '{';
-                                        
+
                                 foreach($prop as $type => $v)
                                 {
                                         $val = isset($typedef[$v]) ? $typedef[$v] : $v;
@@ -33,7 +33,7 @@ trait style
                                                 $not_empty = TRUE;
                                         }
                                 }
-                                
+
                                 $class_text .= '}';
                                 if($not_empty == TRUE)
                                         $css .= $class_text;
@@ -43,7 +43,7 @@ trait style
                 fwrite($file_style, $css);
                 fclose($file_style);
         }
-        
+
         static function install_style_pack($style)
         {
                 $not_empty = FALSE;
@@ -58,7 +58,7 @@ trait style
                 if($not_empty === TRUE)
                         xs_framework::update_option('style', $options);
         }
-        
+
         static function remove_style($style)
         {
                 $not_empty = FALSE;
@@ -70,15 +70,10 @@ trait style
                                 $not_empty = TRUE;
                         }
                 }
-                
+
                 if($not_empty === TRUE)
                         xs_framework::update_option('style', $style);
         }
-        
-        static function enqueue_fontawesome()
-        {
-                wp_enqueue_style('xs_framework_fontawesome_style', plugins_url('style/fontawesome/css/all.min.css', __FILE__));
-        } 
 
 }
 

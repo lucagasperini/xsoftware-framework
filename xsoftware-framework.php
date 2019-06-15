@@ -18,6 +18,7 @@ include 'languages.php';
 include 'browser.php';
 include 'style.php';
 include 'user.php';
+include 'menus.php';
 include 'currency.php';
 
 define('XS_CONTENT_DIR', WP_CONTENT_DIR.'/xsoftware/');
@@ -30,6 +31,7 @@ class xs_framework
         use browser;
         use style;
         use user;
+        use menus;
         use currency;
 
         static function get_option($selected = NULL)
@@ -96,16 +98,6 @@ class xs_framework
                         return update_option('xs_framework_options', $options);
                 }
                 return FALSE;
-        }
-
-        static function init_admin_style()
-        {
-                wp_enqueue_style('xs_framework_admin_style', plugins_url('style/admin.css', __FILE__));
-        }
-
-        static function init_admin_script()
-        {
-                wp_enqueue_script('xs_framework_admin_script', plugins_url('js/admin.js', __FILE__));
         }
 
         static function url_image($image)
@@ -176,6 +168,34 @@ endif;
 
 include 'framework-options.php';
 
+if(!is_admin())
+add_filter('wp_get_nav_menu_items', 'get_menu_by_language', 10, 2);
+
+function get_menu_by_language($items, $args)
+{
+
+        $options = xs_framework::get_option();
+        $current_menu = $args->slug;
+        $user_lang = xs_framework::get_user_language();
+
+        if(isset($options['menu'][$user_lang])) {
+                $menu = $options['menu'][$user_lang]['slug'];
+                $domain = $options['menu'][$user_lang]['domain'];
+        } else {
+                $default_lang = $options['default_language'];
+                $menu = $options['menu'][$default_lang]['slug'];
+                $domain = $options['menu'][$default_lang]['domain'];
+        }
+
+        if($current_menu === $menu) {
+                return apply_filters('xs_framework_menu_items', $items, $domain);
+        } else {
+                return wp_get_nav_menu_items( [
+                        'menu' => $menu
+                ] );
+        }
+}
+
 add_action( 'init', 'xs_framework_session_init', 0 );
 
 function xs_framework_session_init()
@@ -184,14 +204,28 @@ function xs_framework_session_init()
         {
                 session_start();
         }
+
+        if(!is_admin()) {
+                wp_enqueue_style(
+                        'xs_framework_fontawesome_style',
+                        plugins_url('style/fontawesome/css/all.min.css', __FILE__)
+                );
+        } else {
+                wp_enqueue_style(
+                        'xs_framework_admin_style',
+                        plugins_url('style/admin.css', __FILE__)
+                );
+                wp_enqueue_script(
+                        'xs_framework_admin_script',
+                        plugins_url('js/admin.js', __FILE__)
+                );
+        }
 }
 
 add_action( 'plugins_loaded', 'xs_framework_init', 0 );
 
 function xs_framework_init()
 {
-        //session_start(); CANNOT LOAD WORDPRESS IF ENABLED
-        $options = xs_framework::get_option();
         //take language from browser setting
         $language = xs_framework::language_browser();
 

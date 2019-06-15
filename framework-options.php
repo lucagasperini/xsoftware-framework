@@ -33,7 +33,7 @@ class xs_framework_options
                         wp_die( __( 'Exit!' ) );
                 }
 
-                xs_framework::init_admin_style();
+
 
                 echo '<div class="wrap">';
 
@@ -78,6 +78,10 @@ class xs_framework_options
                 if(isset($input['default_language']) && !empty($input['default_language']))
                         $current['default_language'] = $input['default_language'];
 
+                if(isset($input['menu']) && !empty($input['menu'])) {
+                        $current['menu'] = $input['menu'];
+                }
+
                 if(isset($input['colors']) && !empty($input['colors'])) {
                         $current['colors'] = $input['colors'];
                 }
@@ -97,6 +101,7 @@ class xs_framework_options
                                 'homepage' => 'Homepage',
                                 'plugin' => 'Plugins',
                                 'language' => 'Languages',
+                                'menu' => 'Menus',
                                 'style' => 'Styles'
                         ),
                         'home' => 'homepage',
@@ -112,6 +117,9 @@ class xs_framework_options
                                 return;
                         case 'language':
                                 $this->show_languages();
+                                return;
+                        case 'menu':
+                                $this->show_menu();
                                 return;
                         case 'style':
                                 $this->show_style();
@@ -397,6 +405,44 @@ class xs_framework_options
                         'section_framework',
                         $options
                 );
+        }
+        function show_menu()
+        {
+                echo '<h2>Translated Menu Navbar</h2>';
+                // get the all languages available in the wp
+                $languages = xs_framework::get_available_language([
+                        'language' => FALSE,
+                        'english_name' => TRUE
+                ]);
+                $menus = get_terms( 'nav_menu', array( 'hide_empty' => true ) ); // get menues
+                $selected_menu = $this->settings['menu'];
+                foreach ($menus as $menu ) {
+                        $data_menu[$menu->slug] = $menu->name;
+                }
+
+                foreach ($languages as $code => $name ) {
+                        $headers[]  = $name;
+                        if(isset($selected_menu[$code]))
+                                $selected = $selected_menu[$code];
+                        else
+                                $selected = reset($data_menu);
+
+                        $data_table[0][$code] = xs_framework::create_select( array(
+                                'name' => 'xs_framework_options[menu]['.$code.'][slug]',
+                                'data' => $data_menu,
+                                'selected' => $selected['slug']
+                        ));
+                        $data_table[1][$code] = xs_framework::create_input_number( array(
+                                'name' => 'xs_framework_options[menu]['.$code.'][domain]',
+                                'value' => $selected['domain'],
+                                'max' => 9999999999999
+                        ));
+                }
+                xs_framework::create_table([
+                        'headers' => $headers,
+                        'data' => $data_table,
+                        'class' => 'widefat fixed'
+                ]);
         }
 
 }
