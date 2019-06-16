@@ -165,9 +165,7 @@ function get_menu_by_language($items, $args)
         if($current_menu === $menu) {
                 return apply_filters('xs_framework_menu_items', $items, $domain);
         } else {
-                return wp_get_nav_menu_items( [
-                        'menu' => $menu
-                ] );
+                return wp_get_nav_menu_items($menu);
         }
 }
 
