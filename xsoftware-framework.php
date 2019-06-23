@@ -186,11 +186,11 @@ function xs_framework_session_init()
         } else {
                 wp_enqueue_style(
                         'xs_framework_admin_style',
-                        plugins_url('style/admin.css', __FILE__)
+                        plugins_url('style/admin.min.css', __FILE__)
                 );
                 wp_enqueue_script(
                         'xs_framework_admin_script',
-                        plugins_url('js/admin.js', __FILE__)
+                        plugins_url('js/admin.min.js', __FILE__)
                 );
         }
 }
