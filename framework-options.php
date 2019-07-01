@@ -112,6 +112,7 @@ class xs_framework_options
         /* FIXME: It's not end */
         function show_plugins()
         {
+                $data = array();
                 if(!isset($_GET['opt'])) {
                         $options = $this->settings['plugins'];
 
@@ -121,12 +122,16 @@ class xs_framework_options
                                         ['opt' => $id]
                                 );
 
-                                xs_framework::create_link([
+                                $data[][0] = xs_framework::create_link([
                                         'href' => $href,
-                                        'text' => $id,
-                                        'echo' => TRUE
+                                        'text' => $id
                                 ]);
                         }
+                        xs_framework::create_table([
+                                'class' => 'xs_admin_table',
+                                'data' => $data,
+                                'headers' => ['Options']
+                        ]);
                         return;
                 }
                 $opt = explode('/',$_GET['opt']);
@@ -135,7 +140,7 @@ class xs_framework_options
                 $root = get_option($option, array());
                 for($i = 1; $i < count($opt); $i++)
                         $root = $root[$opt[$i]];
-                $data = array();
+
                 foreach($root as $key => $value) {
                         $data[$key]['id'] = $key;
                         if(is_array($value)) {
