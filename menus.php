@@ -3,9 +3,19 @@ if(!defined("ABSPATH")) die;
 
 trait menus
 {
-
+        /*
+        *  class : insert_nav_menu_item : matrix
+        *  This method is used to create a navbar menu item as wordpress class
+        *  $settings is the matrix where all property of the class are defined:
+        *  'title' is the string label of the nav menu item
+        *  'class' is the array where define all css class
+        *  'url' is the string URL of the nav menu item
+        *  'order' is a number to identify the nav menu item
+        *  'parent' is the ID of the parent item
+        */
         static function insert_nav_menu_item( $settings )
         {
+                /* Define and append default settings */
                 $default_settings = array(
                         'title' => '',
                         'class' => array(),
@@ -13,9 +23,9 @@ trait menus
                         'order' => 100,
                         'parent' => 0
                 );
-
                 $settings += $default_settings;
 
+                /* Create the class */
                 $item = new stdClass();
                 $item->ID = 1000 + $settings['order'] + $settings['parent'];
                 $item->db_id = $item->ID;
@@ -50,7 +60,9 @@ trait menus
                 $item->comment_count = 0;
                 $item->filter = 'raw';
 
+                /* Transform the stdClass in a Wordpress Post class */
                 $post = new WP_Post($item);
+                /* Return the post */
                 return $post;
         }
 
