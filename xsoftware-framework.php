@@ -123,12 +123,11 @@ class xs_framework
         *  This method is used to fetch the image URL from images on framework
         *  $image is the filename of the image
         */
-        /* TODO: Replace images with minimized svg */
         /* FIXME: What if image doesn't exists? */
         static function url_image($image)
         {
                 /* Return the URL of the image */
-                return plugins_url('img/'.$image, __FILE__);
+                return plugins_url('svg/'.$image, __FILE__);
         }
 
         /*
