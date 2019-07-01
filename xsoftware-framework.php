@@ -5,7 +5,7 @@ Description: Framework for xsoftware wordpress plugins.
 Version: 1.0
 Author: Luca Gasperini
 Author URI: https://xsoftware.it/
-Text Domain: xsoftware_products
+Text Domain: xsoftware_framework
 */
 
 if(!defined("ABSPATH")) die;
@@ -18,19 +18,27 @@ include 'languages.php';
 include 'browser.php';
 include 'user.php';
 include 'menus.php';
-include 'currency.php';
 
 define('XS_CONTENT_DIR', WP_CONTENT_DIR.'/xsoftware/');
 
+/*
+*  XSoftware Framework Plugin Class
+*  The following class is used to define framework functions
+*/
 class xs_framework
 {
+        /* Include the HTML function to rapid development */
         use html;
+        /* Include the complex HTML function to rapid development */
         use html_utils;
+        /* Include the global language management */
         use languages;
+        /* Include the specific browser functions */
         use browser;
+        /* Include the user management functions */
         use user;
+        /* Include the global nav menu management */
         use menus;
-        use currency;
 
         static function get_option($selected = NULL)
         {
@@ -144,7 +152,7 @@ endif;
 include 'framework-options.php';
 
 if(!is_admin())
-add_filter('wp_get_nav_menu_items', 'get_menu_by_language', 10, 2);
+        add_filter('wp_get_nav_menu_items', 'get_menu_by_language', 10, 2);
 
 function get_menu_by_language($items, $args)
 {
