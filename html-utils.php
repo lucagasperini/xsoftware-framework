@@ -94,7 +94,9 @@ $settings['id'].'['.$key.'][input]' . '\',\'' . $settings['id'].'['.$key.'][imag
                         'lang' => 'Languages',
                         'text' => 'Text',
                         'line' => 'Line',
-                        'url' => 'URL'
+                        'url' => 'URL',
+                        'bool' => 'Boolean',
+                        'int' => 'Number'
                 ];
 
                 return $types;
@@ -118,6 +120,9 @@ $settings['id'].'['.$key.'][input]' . '\',\'' . $settings['id'].'['.$key.'][imag
                         $label = isset($single['label']) ? $single['label'] : '';
                         $name = isset($single['name']) ? $single['name'] : '';
                         $id = isset($single['id']) ? $single['id'] : '';
+                        $number_max = isset($single['max']) ? $single['max'] : 9999999999;
+                        $number_min = isset($single['min']) ? $single['min'] : -9999999999;
+                        $number_step = isset($single['step']) ? $single['step'] : 0.001;
 
                         switch($single['type']) {
                                 case 'img':
@@ -167,6 +172,26 @@ $settings['id'].'['.$key.'][input]' . '\',\'' . $settings['id'].'['.$key.'][imag
                                                 'type' => 'url',
                                                 'name' => $name,
                                                 'value' => $value
+                                        ]);
+                                        break;
+                                case 'bool':
+                                        $data[$key][0] = $label;
+                                        $data[$key][1] = xs_framework::create_input_checkbox([
+                                                'class' => $class,
+                                                'name' => $name,
+                                                'compare' => $value,
+                                                'value' => 'y'
+                                        ]);
+                                        break;
+                                case 'int':
+                                        $data[$key][0] = $label;
+                                        $data[$key][1] = xs_framework::create_input_number([
+                                                'class' => $class,
+                                                'name' => $name,
+                                                'value' => $value,
+                                                'min' => $number_min,
+                                                'max' => $number_max,
+                                                'step' => $number_step
                                         ]);
                                         break;
                                 default:
