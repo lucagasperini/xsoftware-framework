@@ -238,6 +238,11 @@ class xs_framework
                 /* Return the output array */
                 return $offset;
         }
+
+        static function can_use_cookie()
+        {
+                return isset($_COOKIE['xs_framework_privacy']) && $_SESSION['xs_framework_privacy'] === 'accept';
+        }
 }
 
 endif;
@@ -308,6 +313,11 @@ function xs_framework_session_init()
                         'xs_framework_fontawesome_style',
                         plugins_url('style/fontawesome/css/all.min.css', __FILE__)
                 );
+                /* Add user javascript for all frontend pages */
+                wp_enqueue_script(
+                        'xs_framework_user_script',
+                        plugins_url('js/user.min.js', __FILE__)
+                );
         } else {
                 /* Add administration css on all backend pages */
                 wp_enqueue_style(
@@ -335,6 +345,25 @@ function xs_framework_init()
 
         /* Set as the user language */
         $language = xs_framework::set_user_language($language);
+}
+
+add_action( 'wp_footer', 'xs_framework_privacy' );
+
+function xs_framework_privacy()
+{
+
+        if(isset($_COOKIE['xs_framework_privacy']) && $_COOKIE['xs_framework_privacy'] === 'accept') {
+                if(isset($_SESSION['xs_framework_privacy']) && $_SESSION['xs_framework_privacy'] !== 'accept') {
+                        $_SESSION['xs_framework_privacy'] = 'accept';
+                        echo '<script>location.reload();</script>';
+                }
+                return;
+        }
+        if(!isset($_SESSION['xs_framework_privacy']) || empty($_SESSION['xs_framework_privacy']))
+                $_SESSION['xs_framework_privacy'] = 'show';
+
+        echo apply_filters('xs_framework_privacy_show', null);
+
 }
 
 ?>
