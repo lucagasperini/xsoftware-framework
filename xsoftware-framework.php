@@ -241,7 +241,10 @@ class xs_framework
 
         static function can_use_cookie()
         {
-                return isset($_COOKIE['xs_framework_privacy']) && $_SESSION['xs_framework_privacy'] === 'accept';
+                if(!isset($_COOKIE))
+                        return FALSE;
+
+                return isset($_COOKIE['xs_framework_privacy']) && $_COOKIE['xs_framework_privacy'] === 'accept';
         }
 }
 
