@@ -347,7 +347,7 @@ function xs_framework_init()
         $language = xs_framework::language_browser();
 
         /* Set as the user language */
-        $language = xs_framework::set_user_language($language);
+        xs_framework::set_user_language($language);
 }
 
 add_action( 'wp_footer', 'xs_framework_privacy' );
