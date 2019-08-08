@@ -59,9 +59,7 @@ class xs_framework_options
 
                 if(isset($input['add_lang']) && !empty($input['add_lang'])) {
                         $current['available_languages'][] = $input['add_lang'];
-                        $res = xs_framework::download_language($input['add_lang']);
-                        if($res == FALSE)
-                                return; //FIXME: Create an error handler!
+                        xs_framework::download_language($input['add_lang']);
                 }
                 if(isset($input['remove_lang'])) {
                         unset($current['available_languages'][$input['remove_lang']]);

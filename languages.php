@@ -160,13 +160,22 @@ trait languages
                         file_get_contents($remoteFile)
                 );
 
-                if($flag === FALSE || !class_exists('ZipArchive'))
-                        return FALSE;
+                if(!class_exists('ZipArchive')) {
+                        echo 'ERROR: You need to install ZipArchive PHP to download language pack!';
+                        exit;
+                }
+
+                if($flag === FALSE) {
+                        echo 'ERROR: Cannot download the file from remote server!';
+                        exit;
+                }
 
                 $zip = new ZipArchive;
 
-                if ($zip->open($package) !== TRUE)
-                        return FALSE;
+                if ($zip->open($package) !== TRUE) {
+                        echo 'ERROR: Cannot open the zip archive!';
+                        exit;
+                }
 
                 $zip->extractTo(
                         $lang_dir,
