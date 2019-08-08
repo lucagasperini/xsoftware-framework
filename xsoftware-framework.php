@@ -321,6 +321,11 @@ function xs_framework_session_init()
                         'xs_framework_user_script',
                         plugins_url('js/user.min.js', __FILE__)
                 );
+
+                wp_enqueue_style(
+                        'xs_framework_style_flag',
+                        plugins_url('style/flags/css/flag-icon.min.css',__FILE__)
+                );
         } else {
                 /* Add administration css on all backend pages */
                 wp_enqueue_style(
